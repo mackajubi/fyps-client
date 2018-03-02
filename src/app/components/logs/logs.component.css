@@ -1,0 +1,11 @@
+.inner-wrapper{
+    background-color: #ffffff5c;
+    padding-left: 4px;
+}
+@media(max-width: 1024px){
+    .inner-wrapper > p{
+        margin: 0 0 10px;
+        font-size: 11px !important;
+        font-weight: 600;
+    }
+}

@@ -1,0 +1,136 @@
+.progress-wrapper{
+    padding: 0px;
+    box-shadow: 0px 1px 1px 0px #272b30;
+    margin-bottom: 10px;
+    margin-top: 1px;
+}
+.search-wrapper{
+    padding-right: 2px;
+    padding-left: 1px;
+}
+.search-bar{
+    display: flow-root;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    background-color: #0cc10cba;
+}
+._show{
+    padding: 0px;
+    padding-left: 12px;
+}
+.form-control._search{
+    border: 1px solid #1e212687;
+    width: fit-content;
+    display: inline-block;
+}
+
+.table > thead > tr > th {
+    background: #0cc10c6b;
+    color: #23252a;
+    padding: 6px 8px;    
+}
+.form-control {
+    background: #f9f9f9 !important;
+    border: 1px solid #1e212687;
+    font-size: 14px;
+    text-align: center;
+}
+.progress-wrapper-bars{
+    padding: 0px;
+}
+.count{
+    border: 2px solid #4dd04d;
+    background-color: #4dd04d;
+    padding: 8px 13px !important;
+}
+.count,
+.inactive-count{
+    float: left;
+}
+.count,
+.inactive-count,
+.end,
+.complete{
+    width: fit-content;
+    border-radius: 50%;
+    display: inline-block;
+    position: absolute;
+    top: 14px;
+    font-weight: 600;
+}
+.end{
+    border: 2px solid #26282d;
+    background-color: #24262b;
+    color: white;
+}
+.end,
+.complete{
+    float: right;
+    right: 0;
+    padding: 8px 6px;
+}
+.doc{
+    text-align: center;
+    transition: all .5s ease-in-out;
+    text-transform: capitalize;
+    font-weight: 600;
+    height: 16px;
+}
+.stripe{
+    border-color:#4dd04d;
+}
+.date{
+    text-align: center;
+    transition: all .5s ease-in-out;
+    font-weight: 800;
+    height: 16px;
+    margin-top: 3px;
+}
+.inactive-stripe{
+    border-color: #da4e4c;
+}
+.stripe,
+.inactive-stripe{
+    border-width: 3px;
+    border-style: solid;
+}
+.inactive-count{
+    border-color: #da4e4c;
+    color: white ;
+    background-color: #da4e4c;
+    padding: 10px 15px !important;
+}
+.complete{
+    border: 2px solid #4dd04d;
+    background-color: #4dd04d;
+    color: black;
+}
+.table {
+    margin-bottom: 37px;
+}
+.table-striped>tbody>tr:nth-child(odd) {
+    background-color: #f9f9f9db;
+}
+.table-striped>tbody>tr {
+    background-color: #ffffff63;
+}
+table > tbody > tr:hover{
+    cursor: pointer;
+}
+table > tbody > tr > td{
+    padding-top: 0px;
+    padding-bottom: 0px;
+    vertical-align: middle;
+    font-size: 14px;
+}
+table > tbody > tr:hover .count,
+table > tbody > tr:hover .complete{
+    box-shadow: 0 0 0 0 #4dd04d;
+    animation: pulse 1.4s infinite cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.progress-group-tb{
+    text-transform: uppercase;
+}
+.hide{
+    display: none;
+}

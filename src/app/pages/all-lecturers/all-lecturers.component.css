@@ -1,0 +1,88 @@
+.all-lecturers-wrapper{
+    box-shadow: 0px 1px 1px 0px #272b30;
+    margin: 3px 8px 15px;
+    display: flow-root;
+}
+.table-wrapper{
+    background-color: rgba(241, 241, 241, 0.66);
+}
+table{
+    margin-bottom: 37px;
+}
+table > tbody > tr > td{
+    vertical-align: middle;
+}
+.action-th{
+    text-align: center;
+}
+.action-td{
+    vertical-align: middle;
+}
+.action-td > div{
+    padding: 0px;
+}
+.action-td > div > button{
+    width: 100%;
+}
+.action-td > div:first-child{
+    text-align: right;
+}
+.edit:hover{
+    background-color: green !important;
+}
+.action-td > div:last-child{
+    padding-left: 4px;
+}
+.mb-title.confirm-delete-title{
+    font-size: 21px !important;
+}
+.mb-title.confirm-delete-title > strong{
+    font-size: 21px;
+    margin-left: 5px;
+}
+@media (max-width: 670px){
+    table > tbody > tr > td,
+    table > thead > tr > th{
+        font-size: 10px !important;
+        font-weight: 800 !important;
+    }
+    .action-th{
+        width: 50%;
+    }
+}
+@media (max-width: 495px){
+    .action-td > div{
+        width: 100%;
+    }
+    .action-td{
+        text-align: center;
+    }
+    .action-td > div:first-child{
+        text-align: unset;
+    }    
+    .action-td > div:first-child{
+        margin-bottom: 4px;
+    }    
+    .action-td > div:last-child{
+        padding-left: 0px;
+    }    
+}
+@media (max-width: 443px){
+    .course-th,
+    .course-td{
+        display: none;
+    }    
+}
+@media (max-width: 390px){
+    .count{
+        width: 5px;
+        padding: 0px !important;
+        padding-left: 2px !important;
+    }
+}
+@media (max-width: 367px){
+    .email-th,
+    .email-td{
+        display: none;
+    }
+}

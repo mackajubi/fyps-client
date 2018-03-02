@@ -1,0 +1,27 @@
+.assign-groups-wrapper{
+    margin:6px 10px 18px;
+    border: 1px solid #2022285c;
+    border-top: 1px solid #20222814;
+    box-shadow: 0px 2px 3px 0px #202228a6;
+}
+.groups-allocated-td{
+    text-align: center;
+    font-weight: 700;
+}
+.group-members-td{
+    padding-left: 12px !important;
+}
+table > tbody > tr > td,
+table > thead > tr > th{
+    transition: all .5s ease-in-out;
+}
+@media (max-width: 448px){
+    .group-title-sup{
+        display: none;  
+    }
+    table > tbody > tr > td,
+    table > thead > tr > th{
+        font-size: 9px;
+        font-weight: 900;
+    }    
+}

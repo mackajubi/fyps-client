@@ -1,0 +1,52 @@
+<div class="progress-wrapper col-xs-12">
+    <div class="search-bar">
+      <form [formGroup]="searchForm" class="form-horizontal">
+        <div class="slideBtn pull-left" (click)="_slideToggle('inner-progress-wrapper','slideBtn > button')">
+          <button class="btn btn-info"><i class="fas fa-caret-down icon"></i></button>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-10 _show animated fadeIn">
+          <label>Show</label>
+          <select class="form-control _search" formControlName="size" (ngModelChange)="_show(size = $event)">
+            <option value="5" ng-reflect-value="5">5</option>
+            <option value="10" ng-reflect-value="10">10</option>
+            <option  value="25" ng-reflect-value="25">25</option>
+            <option  value="50" ng-reflect-value="50">50</option>
+            <option  value="100" ng-reflect-value="100">100</option>
+          </select>
+          <label  class="_entries"> entries of <strong>{{ total }}</strong></label> 
+        </div>
+        <div  class="col-md-5 col-sm-6 col-xs-12 search-wrapper pull-right animated fadeIn">
+          <input  class="form-control" [(ngModel)]="search" placeholder="Search" formControlName="search" type="search" >
+        </div>
+      </form>
+    </div>
+    <div class="inner-progress-wrapper">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th class="progress-count-tb">#</th>
+            <th>Group</th>
+            <th>Progress</th>
+          </tr>
+        </thead>      
+        <tbody>
+          <tr class="records animated fadeInUp _delay{{ i + 3 }}ms" *ngFor="let p of progress | filter:search | paginate: {id: 'archiveProjects', itemsPerPage: pageSize, currentPage: page }; let i = index">
+            <td class="progress-count-tb">{{ i + 1 }}</td>
+            <td class="progress-group-tb">{{ p.group }}</td>
+            <td>
+              <div *ngFor="let s of p.status; let i = index" class="progress-wrapper-bars col-xs-4" [ngClass]="{'progress-concept-paper': i == 0}">
+                <div class="_count{{ i + 1}}" [ngClass]="{'count': s.flag == true,'inactive-count': s.flag == false}">{{ i + 1 }}</div>
+                <h5 class="doc">{{ s.doc }}</h5>
+                <div class="_bar{{ i + 1 }}" [ngClass]="{'stripe': s.flag == true ,'inactive-stripe': s.flag == false}"></div>
+                <h5 class="date">{{ s.date }}</h5>
+                <div [ngClass]="{'end': s.flag == false,'complete': s.flag == true}" *ngIf=" i == 2 ">end</div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="_pagiantionContainer has-text-centered">
+        <pagination-controls id="archiveProjects" (pageChange)="page = $event"></pagination-controls>
+      </div>     
+    </div>
+  </div>

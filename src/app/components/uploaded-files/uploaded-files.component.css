@@ -1,0 +1,80 @@
+.uploads-table{
+    overflow: hidden;
+    max-height: 250px;
+    width: 100%;
+    background: #ffffffb5;
+}
+.uploads-table > div{
+    padding: 0px;
+    max-height: 250px;
+    overflow: hidden;
+}
+.uploads-table > div:first-child {
+    overflow: auto;
+}
+.uploads-table > div > table > thead > tr > th{
+    background: #0cc10c6b;
+    color: #23252a;
+    padding: 6px 8px;
+}
+.uploads-table > div  > table > tbody > tr{
+    transition: all .4s ease-in-out;
+}
+.uploads-table > div  > table > tbody > tr:hover{
+    cursor: pointer;
+    background-color: #93de9352;
+}
+.file-name{
+    text-transform: capitalize;
+}
+.uploads-table > div  > table > tbody > tr > td{
+    padding: 2px 8px;
+    vertical-align: middle;
+}
+.remove-btn{
+    background: #e04b4a9c !important;;
+    border: 1px solid #e04b4a !important;;
+    padding: 1px 16px;
+    transition: all .4s ease-in-out;
+}
+.remove-btn:hover{
+    background: #e04a4a !important;;
+}
+.drop-zone-wrapper{
+    cursor: pointer;
+    border: 2px dashed #4d4f53;
+    max-height: 250px;
+    text-align: center;
+    background: url(../../../assets/img/bg.png) left top repeat rgba(238, 237, 236, 0.38);
+    margin: 5px;
+}
+.drop-zone-wrapper:hover .fa-cloud-upload-alt{
+    color: #000000;
+}
+.fa-cloud-upload-alt{
+    transition: all .5s ease-in-out;
+    color: #2123284a;
+    font-size: 56px;
+    position: absolute;
+    margin: 37px -33px;
+}
+.auto{
+    height: auto !important;
+}
+.confirm-delete-title{
+    font-size: 17px !important;
+}
+.confrim-delete-form > div{
+    display: inline-block;
+    width: fit-content;  
+}
+.confrim-delete-form > div:first-child{
+   margin-top: 0px;
+   margin-right: 70px;
+}
+.confrim-delete-form > div > label{
+
+}
+#mb-confirm-delete{
+    max-height: unset !important;
+}

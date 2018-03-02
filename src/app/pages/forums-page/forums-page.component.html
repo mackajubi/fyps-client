@@ -1,0 +1,145 @@
+<div class="forum-wrapper">
+  <!-- Latest posts -->
+  <div class="col-md-9 col-sm-9 col-xs-12 animated fadeIn _delay5ms" *ngIf="!showArchive"> 
+    <div *ngFor="let post of forums; let i = index;" class="forum-main-section-wrapper">
+      <div class="forum-header-wrapper">
+        <div class="forum-header-owner-img col-md-1 col-xs-1">
+          <img src="/assets/img/users/{{ post.img }}" class="img-thumbnail animated animated-forum-element fadeInLeft" />
+        </div>
+        <div class="forum-header-owner col-md-3 col-xs-3">
+          <h3 class="animated-forum-element animated fadeInDown">{{ post.group_name }}</h3>
+          <h3 class="animated-forum-element animated fadeInDown _delay6ms">{{ post.name }}</h3>
+        </div>
+        <div class="forum-header-title col-md-6 col-xs-12">
+          <p class="animated-forum-element animated fadeInDown">{{ post.title }}</p>
+        </div>
+        <div class="forum-header-post-time col-md-2">
+          <p class="animated-forum-element animated fadeInDown">{{ post.time }}</p>
+        </div>
+      </div>
+      <div class="forum-content _widget-scrollbar {{ i }}">
+        <p class="animated-forum-element animated fadeIn">{{ post.msg }}</p>
+      </div>
+      <div class="forum-response-section-header">
+        <div (click)="_readComments(i)" class="animated-forum-element animated fadeInDown"><i class="far fa-comment-alt forum-response-icon"></i></div>
+        <span class="animated-forum-element animated fadeInDown">{{ post.comments_count }}</span>
+        <div class="animated-forum-element animated fadeInDown" (click)="_like(i)"><i class="far fa-smile forum-response-icon"></i></div>
+        <span class="animated-forum-element animated fadeInDown">{{ post.likes }}</span>
+        <div class="animated-forum-element animated fadeInDown" (click)="_dislike(i)"><i class="far fa-frown forum-response-icon"></i></div>
+        <span class="animated-forum-element animated fadeInDown">{{ post.dislikes }}</span>
+        <button class="btn btn-info forum-read-more-btn pull-right animated-forum-element animated fadeInRight {{ i }}" (click)="_readMore(i)">{{ readMoreBtn }}</button>
+      </div>    
+      <div class="forum-response-content-wrapper _widget-scrollbar {{ i }} animated fadeInUp _delay5ms">
+        <div *ngFor="let comment of post.comments;" class="forum-response">
+          <div class="forum-response-header">
+            <div class="forum-response-header-img col-md-1 col-xs-1">
+              <img src="/assets/img/users/{{ comment.img }}" class="img-thumbnail" />
+            </div>
+            <div class="forum-response-header-owner col-md-3 col-xs-2">
+              <h3>{{ comment.group_name }}</h3>
+              <h3>{{ comment.name }}</h3>
+            </div>
+            <div class="forum-response-post-time col-md-2 pull-right">
+              <p>{{ comment.time | date:'short' }}</p>
+            </div>       
+          </div>   
+          <div class="forum-response-content">
+            <p>{{ comment.msg }}</p>
+          </div>       
+        </div>
+      </div>
+      <div class="forum-new-comment-wrapper {{ i }}">
+        <div class="forum-response-header">
+          <div class="forum-response-header-img col-md-1 col-xs-1">
+            <img src="/assets/img/users/{{ user_image }}" class="img-thumbnail" />
+          </div>
+          <div class="forum-response-header-owner col-md-3 new-comment">
+            <h3>{{ user_name }}</h3>
+          </div>      
+        </div>   
+        <div class="forum-response-content">
+          <form [formGroup]="commentForm" (ngSubmit)="_submitComment(commentForm.value,i)">
+            <div class="form-group new-comment-form-group">
+              <label for="comment">Want to particupate? 
+                <span class="pull-right"> 
+                  <span *ngIf="currentSize != maxLength; else warning"><strong>{{ currentSize }}</strong></span>
+                  <ng-template #warning><strong class="comment-warning">{{ currentSize }}</strong> </ng-template>/ {{ maxLength }}
+                </span>
+              </label>
+              <textarea class="form-control comment _scrollbar" maxlength="{{ maxLength }}" formControlName="comment" (ngModelChange)="_commentSize(character = $event)" name="comment" rows="3"></textarea>
+            </div>
+            <div class="submit-btn-wrapper">
+              <button class="btn btn-success btn-block _a new-comment-submit-btn" type="submit" [disabled]="!commentForm.valid">Send</button>
+            </div>
+          </form>
+        </div> 
+      </div>
+    </div>
+  </div>
+  <!-- Display an archived post's content -->
+  <div class="col-md-9 forum-archived-post-wrapper animated fadeIn _delay5ms" *ngIf="showArchive">
+    <div class="forum-main-section-wrapper">
+      <div class="forum-header-wrapper">
+        <div class="forum-header-owner-img col-md-1">
+          <img src="/assets/img/users/{{ archive.img }}" class="img-thumbnail animated animated-forum-element fadeInLeft" />
+        </div>
+        <div class="forum-header-owner col-md-3">
+          <h3 class="animated-forum-element animated fadeInDown">{{ archive.group_name }}</h3>
+          <h3 class="animated-forum-element animated fadeInDown _delay6ms">{{ archive.name }}</h3>
+        </div>
+        <div class="forum-header-title col-md-6">
+          <p class="animated-forum-element animated fadeInDown">{{ archive.title }}</p>
+        </div>
+        <div class="forum-header-post-time col-md-2">
+          <p class="animated-forum-element animated fadeInDown">{{ archive.time }}</p>
+        </div>
+      </div>
+      <div class="forum-content _widget-scrollbar">
+        <p class="animated-forum-element animated fadeIn">{{ archive.msg }}</p>
+      </div>
+      <div class="forum-response-section-header">
+        <div class="animated-forum-element animated fadeInDown"><i class="far fa-comment-alt forum-response-icon"></i></div>
+        <span class="animated-forum-element animated fadeInDown">{{ archive.comments_count }}</span>
+        <div class="animated-forum-element animated fadeInDown"><i class="far fa-smile forum-response-icon"></i></div>
+        <span class="animated-forum-element animated fadeInDown">{{ archive.likes }}</span>
+        <div class="animated-forum-element animated fadeInDown"><i class="far fa-frown forum-response-icon"></i></div>
+        <span class="animated-forum-element animated fadeInDown">{{ archive.dislikes }}</span>
+      </div>    
+      <div class="forum-response-content-wrapper _widget-scrollbar animated-forum-element animated fadeInUp">
+        <div *ngFor="let comment of archive.comments;" class="forum-response">
+          <div class="forum-response-header">
+            <div class="forum-response-header-img col-md-1 col-xs-1">
+              <img src="/assets/img/users/{{ comment.img }}" class="img-thumbnail animated animated-forum-element fadeInLeft" />
+            </div>
+            <div class="forum-response-header-owner col-md-3 col-xs-3">
+              <h3 class="animated-forum-element animated fadeInDown">{{ comment.group_name }}</h3>
+              <h3 class="animated-forum-element animated fadeInDown _delay6ms">{{ comment.name }}</h3>
+            </div>
+            <div class="forum-response-post-time col-md-2 pull-right">
+              <p class="animated-forum-element animated fadeInRight">{{ comment.time | date:'short' }}</p>
+            </div>       
+          </div>   
+          <div class="forum-response-content">
+            <p class="animated-forum-element animated fadeIn">{{ comment.msg }}</p>
+          </div>       
+        </div>
+      </div>
+    </div>
+  </div>  
+  <!-- Archived Posts list -->
+  <div class="col-md-3 col-sm-3 forum-archived-wrapper">
+    <div class="forum-archived-header">
+      <h3>Archived posts</h3>
+    </div>
+    <div class="forum-archived-content">
+      <table class="table table-striped">
+        <tbody>
+          <tr *ngFor="let post of archivedPosts; let i = index;" class="pointer" (click)="_readArchivedPost(i)">
+            <td>{{ post.time }}</td>
+            <td>{{ post.title }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

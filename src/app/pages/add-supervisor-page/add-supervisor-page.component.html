@@ -1,0 +1,95 @@
+<div class="add-supervisor-wrapper">
+  <div class="projects-controls-wrapper animated fadeIn _delay5ms">
+    <div class="header-wrapper">
+      <div class="slideBtn pull-left" (click)="_slideToggle('inner-container','slideBtn > button')">
+        <button class="btn btn-info"><i class="fas fa-caret-down icon"></i></button>
+      </div>
+      <button class="btn btn-info pull-right" (click)="_showForm()"><i class="fas fa-user-plus icon"></i></button>     
+      <form [formGroup]="addSupervisorForm" class="form-horizontal animated _delay4ms" (ngSubmit)="_addSupervisor(addSupervisorForm.value)">
+        <div class="form-group name _form-group">
+          <label class="col-sm-2 col-xs-2" for="name">Name</label>
+          <input type="text" class="form-control col-sm-6 animated fadeInDown _delay5ms" maxlength="{{ maxNameLength }}" formControlName="name" (ngModelChange)="_nameSize(name = $event)">
+          <span> 
+            <span *ngIf="nameSize != maxNameLength; else nameWarning"><strong>{{ nameSize }}</strong></span>
+            <ng-template #nameWarning><strong class="_warning">{{ nameSize }}</strong> </ng-template>/ {{ maxNameLength }}
+          </span>  
+        </div>
+        <div class="form-group course-input _form-group">
+          <label class="col-sm-2 col-xs-2" for="course">Course</label>
+          <input type="text" class="form-control col-sm-6 animated fadeInDown _delay4ms" maxlength="{{ maxCourseLength }}" formControlName="course" (ngModelChange)="_courseSize(course = $event)">
+          <span> 
+            <span *ngIf="courseSize != maxCourseLength; else courseWarning"><strong>{{ courseSize }}</strong></span>
+            <ng-template #courseWarning><strong class="_warning">{{ courseSize }}</strong> </ng-template>/ {{ maxCourseLength }}
+          </span>  
+        </div>    
+        <div class="form-group email _form-group">
+          <label class="col-sm-2 col-xs-2" for="email">email</label>
+          <input type="email" class="form-control col-sm-6 animated fadeInDown _delay3ms" maxlength="{{ maxEmailLength }}" formControlName="email" (ngModelChange)="_emailSize(email = $event)">
+          <span> 
+            <span *ngIf="emailSize != maxEmailLength; else emailWarning"><strong>{{ emailSize }}</strong></span>
+            <ng-template #emailWarning><strong class="_warning">{{ emailSize }}</strong> </ng-template>/ {{ maxEmailLength }}
+          </span>                            
+        </div>
+        <div class="form-group contact-input _form-group">
+          <label class="col-sm-2 col-xs-2" for="contact">phone number</label>
+          <input type="text" class="form-control col-sm-6 animated fadeInDown _delay2ms" maxlength="{{ maxContactLength }}" formControlName="contact" (ngModelChange)="_contactSize(contact = $event)">
+          <span> 
+            <span *ngIf="contactSize != maxContactLength; else contactWarning"><strong>{{ contactSize }}</strong></span>
+            <ng-template #contactWarning><strong class="_warning">{{ contactSize }}</strong> </ng-template>/ {{ maxContactLength }}
+          </span>                            
+        </div>
+        <div class="form-group sup submit-btn-container">
+          <div class="col-md-6 col-xs-6">
+            <button class="btn btn-info btn-block profile-submit pointer clear" (click)="_hideForm()"> done ! </button>
+          </div>
+          <div class="col-md-6 col-xs-6">
+            <button class="btn btn-info btn-block pointer profile-submit" type="submit" [disabled]="!addSupervisorForm.valid">submit</button>
+          </div>
+        </div>      
+      </form>
+    </div>
+    <div class="dataTables_length">
+      <form [formGroup]="searchForm">
+        <div class="col-md-4 col-sm-4 col-xs-12 _show">
+          <label>Show</label>
+          <select class="form-control _search" formControlName="size" (ngModelChange)="_show(size = $event)">
+            <option value="10" ng-reflect-value="10">10</option>
+            <option  value="25" ng-reflect-value="25">25</option>
+            <option  value="50" ng-reflect-value="50">50</option>
+            <option  value="100" ng-reflect-value="100">100</option>
+          </select>
+          <label  class="_entries"> entries of <strong>{{ total }}</strong></label> 
+        </div>
+        <div  class="dataTables_filter col-sm-3 col-xs-12">
+          <input  class="form-control" [(ngModel)]="search" placeholder="Search" formControlName="search" type="search" >
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="inner-container">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th class="count">#</th>
+          <th>name</th>
+          <th class="course">Course</th>
+          <th class="contact">contact</th>
+          <th>email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let s of supervisors | paginate: {id: 'supervisor', itemsPerPage: pageSize, currentPage: page }; let i = index" class="animated fadeInUp _delay{{ i + 3 }}ms">
+          <td class="count">{{ i + 1 }}</td>
+          <td class="names">{{ s.name }}</td>
+          <td class="course">{{ s.course }}</td>
+          <td class="contact">{{ s.contact }}</td>
+          <td class="email"><a href="mailto:{{ s.email }}">{{ s.email }}</a></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="_pagiantionContainer has-text-centered">
+      <pagination-controls id="supervisor" (pageChange)="page = $event"></pagination-controls>
+    </div>   
+  </div>
+</div>
+<fiyps-footer class="_min-footer"></fiyps-footer>  

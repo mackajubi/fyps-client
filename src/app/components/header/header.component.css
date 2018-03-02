@@ -1,0 +1,29 @@
+._date,
+._time{
+    color: white;
+}
+._date > a,
+._time > a{
+    width: fit-content;
+}
+._time > a{
+    font-size: 18px;
+    background-color: #0cc10ccc;
+}
+._time > a:hover {
+    background: #0cc10ccc;
+}
+._date > a:hover {
+    background: #1d2127;
+}
+@media only screen and (max-width: 1024px){
+    .x-navigation.x-navigation-panel li.xn-icon-button {
+        width: fit-content;
+    }
+}
+
+@media (max-width: 446px){
+    ._date{
+        display: none;
+    }
+}

@@ -1,0 +1,204 @@
+<div class="register-container"> 
+    <div class="register-box animated fadeIn _delay8ms">
+        <div class="login-logo">
+          <div routerLink="/">
+            <div class="_cocis animated fadeIn _delay10ms">
+              <div>College Of Computing </div>
+              <div> & </div>
+              <div>Information Sciences </div>
+            </div>
+            <div class="_sm-logo animated fadeInLeft _delay10ms">COCIS</div>          
+            <img src="../../../assets/img/muk.png" class=""/>
+            <div class="_sm-logo animated fadeInRight _delay10ms">FIYPS </div>
+            <div class="_pptrs animated fadeIn _delay10ms">
+              <div>Final Year Projects</div>
+              <div>system </div>
+              <div class="_tracking"></div>
+            </div>                
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 ">
+                <div class="register-body ">
+                    <div class="register-title ">
+                      <a routerLink="/" class="home-link">home</a>
+                      <strong>Register Group Members</strong>
+                    </div>
+                    <form [formGroup]="registerForm" (ngSubmit)="_login(registerForm.value)" class="form-horizontal">
+                        <div class="form-group col-sm-12 _course-select-container">
+                          <div class="_course-label">
+                              <span class="_caret">*</span> Course
+                          </div>
+                          <div class="_course-select">
+                              <select value="select course" formControlName="course" class="form-control">
+                                <option>BSE</option>
+                                <option>BIT</option>
+                                <option>BCS</option>
+                              </select>
+                          </div>
+                        </div>
+                        <table class="table table-striped">
+                          <thead>
+                            <tr>
+                              <th>#</th>
+                              <th>Name</th>
+                              <th>Registration No</th>
+                              <th>Phone No</th>
+                              <th>Email</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td><span class="_caret">*</span>1</td>
+                              <td>
+                                <div class="form-group">
+                                  <div class="col-md-12">
+                                    <input type="text" class="form-control" formControlName="name_1" placeholder="Name" required/>
+                                  </div>
+                                </div>                                
+                              </td>
+                              <td>
+                                <div class="form-group">
+                                  <div class="col-md-12">
+                                    <input type="text" class="form-control" formControlName="reg_1" placeholder="registration number" required/>
+                                  </div>
+                                </div>                                
+                              </td>
+                              <td>
+                                <div class="form-group">
+                                  <div class="col-md-12">
+                                    <input type="text" class="form-control" formControlName="phone_1" placeholder="phone number" required/>
+                                  </div>
+                                </div>                                
+                              </td>
+                              <td>
+                                <div class="form-group">
+                                  <div class="col-md-12">
+                                    <input type="text" class="form-control" formControlName="email_1" placeholder="email" required/>
+                                  </div>
+                                </div>                                
+                              </td>
+                            </tr>
+                            <tr>
+                              <td><span class="_caret">*</span>2</td>
+                              <td>
+                                <div class="form-group">
+                                  <div class="col-md-12">
+                                    <input type="text" class="form-control" formControlName="name_2" placeholder="Name" required/>
+                                  </div>
+                                </div>                                
+                              </td>
+                              <td>
+                                <div class="form-group">
+                                  <div class="col-md-12">
+                                    <input type="text" class="form-control" formControlName="reg_2" placeholder="registration number" required/>
+                                  </div>
+                                </div>                                
+                              </td>
+                              <td>
+                                <div class="form-group">
+                                  <div class="col-md-12">
+                                    <input type="text" class="form-control" formControlName="phone_2" placeholder="phone number" required/>
+                                  </div>
+                                </div>                                
+                              </td>
+                              <td>
+                                <div class="form-group">
+                                  <div class="col-md-12">
+                                    <input type="text" class="form-control" formControlName="email_2" placeholder="email" required/>
+                                  </div>
+                                </div>                                
+                              </td>
+                            </tr>
+                            <tr>
+                              <td><span class="_caret">*</span>3</td>
+                              <td>
+                                <div class="form-group">
+                                  <div class="col-md-12">
+                                    <input type="text" class="form-control" formControlName="name_3" placeholder="Name" required/>
+                                  </div>
+                                </div>                                
+                              </td>
+                              <td>
+                                <div class="form-group">
+                                  <div class="col-md-12">
+                                    <input type="text" class="form-control" formControlName="reg_3" placeholder="registration number" required/>
+                                  </div>
+                                </div>                                
+                              </td>
+                              <td>
+                                <div class="form-group">
+                                  <div class="col-md-12">
+                                    <input type="text" class="form-control" formControlName="phone_3" placeholder="phone number" required/>
+                                  </div>
+                                </div>                                
+                              </td>
+                              <td>
+                                <div class="form-group">
+                                  <div class="col-md-12">
+                                    <input type="text" class="form-control" formControlName="email_3" placeholder="email" required/>
+                                  </div>
+                                </div>                                
+                              </td>
+                            </tr>
+                            <tr>
+                              <td><span class="_caret">*</span>4</td>
+                              <td>
+                                <div class="form-group">
+                                  <div class="col-md-12">
+                                    <input type="text" class="form-control" formControlName="name_4" placeholder="Name" required/>
+                                  </div>
+                                </div>                                
+                              </td>
+                              <td>
+                                <div class="form-group">
+                                  <div class="col-md-12">
+                                    <input type="text" class="form-control" formControlName="reg_4" placeholder="registration number" required/>
+                                  </div>
+                                </div>                                
+                              </td>
+                              <td>
+                                <div class="form-group">
+                                  <div class="col-md-12">
+                                    <input type="text" class="form-control" formControlName="phone_4" placeholder="phone number" required/>
+                                  </div>
+                                </div>                                
+                              </td>
+                              <td>
+                                <div class="form-group">
+                                  <div class="col-md-12">
+                                    <input type="text" class="form-control" formControlName="email_4" placeholder="email" required/>
+                                  </div>
+                                </div>                                
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <div class="form-group animated bounceIn _delay2ms" *ngIf="invalid">
+                            <div class="col-md-12">
+                                <div class="alert alert-danger" role="alert">
+                                    Invalid email / Password (maximum tries: 3): {{ invalidCount }}
+                                    <span *ngIf="invalidCount == 1; else elseBlock">try</span> 
+                                    <ng-template #elseBlock>tries</ng-template>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group animated fadeInDown _delay2ms" *ngIf="redirect">
+                            <div class="col-md-12">
+                                <div class="alert alert-danger" role="alert">
+                                    <span id="redirect">Will be redirected to change password</span>
+                                </div>
+                            </div>
+                        </div>          
+                        <div class="form-group">
+                          <div class="_register-btn-container">
+                              <button class="btn btn-info btn-block _a" type="submit" [disabled]="!registerForm.valid">Submit</button>
+                          </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <fiyps-footer></fiyps-footer>
+    </div>
+  </div>

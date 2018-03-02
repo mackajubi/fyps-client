@@ -1,0 +1,8 @@
+<form [formGroup]="selectForm">
+  <div class="col-md-4 col-sm-4 col-xs-12 select-container">
+    <select [size]="size" class="form-control select" placeholder="Assign a supervisor" formControlName="supervisor" (ngModelChange)="_selectSupervisor(details = $event)">
+      <option [value]="default" class="disabled" selected>Assign a supervisor</option>
+      <option *ngFor="let s of supervisors" value="{{ s.name }}">{{ s.name }}</option>
+    </select>
+  </div>
+</form>

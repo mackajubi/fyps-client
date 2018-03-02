@@ -1,0 +1,49 @@
+<div class="chat-wrapper" *ngIf="userType == 'student' || userType == 'supervisor'">
+  <div class="chat-header" (click)="_slideToggle('chat-container','chat-header-icon')">
+    <div class="chat-header-icon">
+      <i class="fas fa-caret-down icon"></i>
+    </div>
+    <div class="chat-header-title">
+      <h4>Chat</h4>
+    </div>
+  </div>
+  <div class="chat-container">
+    <fiyps-refresh [visibility]="visibility"></fiyps-refresh>
+    <div class="chat-content _widget-scrollbar">
+      <div class="chat" *ngFor="let chat of chats" [ngClass]="{'pull-right': chat.ownerName == username}">
+        <div class="chat-msg-header" [ngClass]="{'current-user': chat.ownerName == username}">
+          <div class="chat-msg-owner-img-wrapper col-xs-1" [ngClass]="{'pull-right': chat.ownerName == username}">
+            <img src="/assets/img/users/{{ chat.img }}" class="img-thumbnail" />
+          </div>
+          <div class="chat-msg-owner-name-time col-md-3 col-xs-3" [ngClass]="{'pull-right': chat.ownerName == username}">
+            <div class="chat-msg-owner-name" [ngClass]="{'align-right': chat.ownerName == username}">
+              {{ chat.ownerName }}
+            </div>
+            <div class="chat-msg-time col-md-2" [ngClass]="{'pull-right': chat.ownerName == username}">
+              {{ chat.time }}
+            </div>
+          </div> 
+        </div>
+        <div class="chat-message">
+          <p> {{ chat.msgBody }} </p>
+        </div>       
+      </div>
+    </div>
+    <div class="new-chat-textarea">
+      <form [formGroup]="newChatForm" class="form-horizontal" (ngSubmit)="_submitChat(newChatForm.value)" (keydown)="enterBtnSubmit($event)">
+        <div class="form-group new-chat-form-group">
+          <span class="pull-right"> 
+            <span *ngIf="currentSize != maxLength; else warning"><strong>{{ currentSize }}</strong></span>
+            <ng-template #warning><strong class="chat-warning">{{ currentSize }}</strong> </ng-template>/ {{ maxLength }}
+          </span>
+          <textarea class="form-control chatMsg _scrollbar" maxlength="{{ maxLength }}" formControlName="chatMsg" (ngModelChange)="_chatMsgSize(character = $event)" name="chatMsg" rows="2"></textarea>
+        </div>
+        <div class="chat-save-btn">
+          <button class="btn btn-info" [disabled]="!newChatForm.valid">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+  
+  

@@ -1,0 +1,87 @@
+<div class="login-container"> 
+    <button class="btn btn-info _sm-login-btn animated fadeInDown" (click)="_smLogin()">{{ smBtn }}</button>
+    <div class="login-box animated fadeIn _delay5ms">
+        <div class="login-logo">
+            <div>
+                <div class="_cocis animated fadeIn _delay10ms">
+                    <div>College Of Computing </div>
+                    <div> & </div>
+                    <div>Information Sciences </div>
+                </div>
+                <div class="_sm-logo animated fadeInLeft _delay10ms">COCIS</div>          
+                <img src="../../../assets/img/muk.png" class=""/>
+                <div class="_sm-logo animated fadeInRight _delay10ms">FIYPS </div>
+                <div class="_pptrs animated fadeIn _delay10ms">
+                    <div>Final Year Projects</div>
+                    <div>system </div>
+                    <div class="_tracking"></div>
+                </div>                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 fadeIn _widget-scrollbar _login-general-info">
+                <h5 class="_headings">What is Lorem Ipsum?</h5>
+                <p>
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                </p>
+                <h5 class="_headings">Why do we use it?</h5>
+                <p>
+                    It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).                    
+                </p>
+                <h5 class="_headings">What is Lorem Ipsum?</h5>
+                <p>
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                </p>
+                <h5 class="_headings">Why do we use it?</h5>
+                <p>
+                    It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).                    
+                </p>
+            </div>
+            <div class="col-sm-6 fadeIn _login-wrapper">
+                <div class="login-body ">
+                    <div class="login-title "><strong>Welcome</strong>, Please login</div>
+                    <form [formGroup]="loginForm" (ngSubmit)="_login(loginForm.value)" class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <input type="email" class="form-control" formControlName="user_email" placeholder="username / group name" required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <input type="password" class="form-control" formControlName="password" placeholder="Password" required/>
+                            </div>
+                        </div>
+                        <div class="form-group wow bounceIn _delay2ms" *ngIf="invalid">
+                            <div class="col-md-12">
+                                <div class="alert alert-danger" role="alert">
+                                    Invalid email / Password (maximum tries: 3): {{ invalidCount }}
+                                    <span *ngIf="invalidCount == 1; else elseBlock">try</span> 
+                                    <ng-template #elseBlock>tries</ng-template>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group wow fadeInDown _delay2ms" *ngIf="redirect">
+                            <div class="col-md-12">
+                                <div class="alert alert-danger" role="alert">
+                                    <span id="redirect">Will be redirected to change password</span>
+                                </div>
+                            </div>
+                        </div>          
+                        <div class="form-group">
+                            <div class="col-md-6">
+                                <a routerLink="/register" class="btn btn-link btn-block _a">Register Group</a>
+                            </div>
+                            <div class="col-md-6">
+                                <a routerLink="/forgotPassword" class="btn btn-link btn-block _a">Forgot your password?</a>
+                            </div>
+                            <div class="col-md-6">
+                                <button class="btn btn-info btn-block _a" type="submit" [disabled]="!loginForm.valid">Log In</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <fiyps-footer></fiyps-footer>
+    </div>
+  </div>

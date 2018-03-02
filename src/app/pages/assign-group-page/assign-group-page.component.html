@@ -1,0 +1,58 @@
+<div class="assign-groups-wrapper">
+  <div class="projects-controls-wrapper animated fadeIn _delay5ms">
+    <div class="dataTables_length">
+      <form [formGroup]="groupsForm">
+        <div class="col-md-4 col-sm-4 col-xs-12 _show">
+          <label>Show</label>
+          <select class="form-control _search" formControlName="size" (ngModelChange)="_show(size = $event)">
+            <option value="10" ng-reflect-value="10">10</option>
+            <option  value="25" ng-reflect-value="25">25</option>
+            <option  value="50" ng-reflect-value="50">50</option>
+            <option  value="100" ng-reflect-value="100">100</option>
+          </select>
+          <label  class="_entries"> entries of <strong>{{ total }}</strong></label> 
+        </div>
+        <div  class="dataTables_filter col-sm-3 col-xs-12">
+          <input  class="form-control" [(ngModel)]="search" placeholder="Search" formControlName="search" type="search" >
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="projects-table-wrapper">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th class="count">#</th>
+          <th class="group-name">Groups</th>
+          <th class="group-members-th">Members</th>
+          <th class="group-title-sup">Title</th>
+          <th class="select-supervisor-th">supervisors</th>
+          <th class="select-groups-allocated-th">groups allocated</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="animated fadeInUp _delay{{ i + 3}}ms" *ngFor="let group of groups | filter:search | paginate: {itemsPerPage: pageSize, currentPage: page }; let i = index;">
+          <td class="count">{{ i + 1 }}</td>
+          <td class="group-name">{{ group.group_name }}</td>
+          <td class="group-members-td">
+            <ul class="project-group-members">
+              <li *ngFor="let member of group.members; let i = index;">{{ member.name }}</li>
+            </ul>
+          </td>
+          <td class="group-title-sup">{{ group.title }}</td>
+          <td class="select-supervisor">
+            <fiyps-select-supervisor (onSelect)="onSelect(name = $event)" (onCount)="onCount(count = $event,i)" ></fiyps-select-supervisor>
+          </td>
+          <td class="select-allocated-td animated fadeIn" id="_td-{{i}}"></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="_pagiantionContainer has-text-centered">
+      <pagination-controls (pageChange)="page = $event"></pagination-controls>
+    </div>    
+    <div class="submit-container">
+      <button class="btn btn-info" (click)="_onSave()"> save </button>
+    </div>    
+  </div>
+</div>
+<fiyps-footer class="_min-footer"></fiyps-footer>  

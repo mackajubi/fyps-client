@@ -1,0 +1,61 @@
+<div class="all-docs-container" *ngIf="userType == 'coordinator'">
+  <div class="projects-wrapper">
+    <div class="projects-inner-wrapper">
+      <div class="projects-controls-wrapper animated fadeIn _delay5ms">
+        <div class="dataTables_length">
+          <form [formGroup]="projectsForm">
+            <div class="col-md-4 col-sm-4 col-xs-12 _show">
+              <label>Show</label>
+              <select class="form-control _search" formControlName="size" (ngModelChange)="_show(size = $event)">
+                <option value="10" ng-reflect-value="10">10</option>
+                <option  value="25" ng-reflect-value="25">25</option>
+                <option  value="50" ng-reflect-value="50">50</option>
+                <option  value="100" ng-reflect-value="100">100</option>
+              </select>
+              <label  class="_entries"> entries of <strong>{{ total }}</strong></label> 
+            </div>
+            <div  class="dataTables_filter col-sm-3 col-xs-12">
+              <input  class="form-control" [(ngModel)]="search" placeholder="Search" formControlName="search" type="search" >
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="projects-table-wrapper">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th class="count">#</th>
+              <th class="group-name">Groups</th>
+              <th class="group-members-th">Members</th>
+              <th class="group-supervisor-th">Supervisor</th>
+              <th class="project-submission-time">Submission Time</th>
+              <th class="project-file">File</th>
+              <th class="project-chat-history">Chat</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="animated fadeInUp _delay{{ i + 3}}ms" *ngFor="let project of projects | filter:search | paginate: {id: 'allDocs', itemsPerPage: pageSize, currentPage: page }; let i = index;">
+              <td class="count">{{ i + 1 }}</td>
+              <td class="group-name">{{ project.group_name }}</td>
+              <td class="group-members-td">
+                <ul class="project-group-members" (click)="_viewGroup(project.id)">
+                  <li *ngFor="let member of project.members; let i = index;">{{ member.name }}</li>
+                </ul>
+              </td>
+              <td class="project-supervisor">{{ project.supervisor }}</td>
+              <td class="project-submission-time">{{ project.submissionTime }}</td>
+              <td class="project-file">{{ project.file }}</td>
+              <td class="project-chat-history">
+                <button class="btn btn-info" (click)="_chat(project.id)">Chat</button>
+                <button class="btn btn-info" (click)="_projectChatHistory(project.id)">Histoy</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="_pagiantionContainer has-text-centered">
+          <pagination-controls id="allDocs" (pageChange)="page = $event"></pagination-controls>
+        </div>    
+      </div>    
+    </div>
+  </div>
+</div>

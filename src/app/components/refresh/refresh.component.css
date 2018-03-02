@@ -1,0 +1,7 @@
+.refresh-wrapper{
+    background: #ffffffeb url("../../../assets/img/loaders/default.gif") no-repeat center;
+    height: 100%;
+    z-index: 1;
+    position: absolute;
+    width: 100%;
+}

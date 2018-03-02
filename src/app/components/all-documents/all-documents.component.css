@@ -1,0 +1,22 @@
+.all-docs-container .projects-wrapper .projects-inner-wrapper{
+    margin: 0px;
+}
+.all-docs-container > .projects-table-wrapper > table > tbody > tr:hover .group-members-td {
+    cursor: pointer;
+    background-color: #93de9352;
+}
+.project-chat-history > button{
+    width: 49%;
+    background-color: #4ed04e96  !important;
+    border-color: #4ed04e  !important;
+}
+.project-chat-history > button:hover,
+.project-chat-history > button:focus,
+.project-chat-history > button:active{
+    background-color: #10a112 !important;
+    border-color: #10a112 !important;
+    color: white !important;
+}
+.project-submission-time{
+    text-align: center;
+}

@@ -1,0 +1,13 @@
+<div class="wrapper">
+  <fiyps-uploaded-files [userType]="userType"></fiyps-uploaded-files>
+  <fiyps-document-review [userType]="userType"></fiyps-document-review>
+  <fiyps-chat [userType]="userType"></fiyps-chat>
+  <fiyps-all-documents 
+    [projects]="projects" 
+    [userType]="userType"
+    (onViewGroup)="_viewGroup($event)"
+    (onChat)="_chat($event)"
+    (onHistory)="_history($event)"
+    ></fiyps-all-documents>
+  <fiyps-footer class="_min-footer"></fiyps-footer>  
+</div>

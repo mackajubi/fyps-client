@@ -1,0 +1,14 @@
+.select-container{
+    vertical-align: middle;
+    padding: 0px;
+    width: 100%;
+}
+.disabled{
+    cursor: not-allowed;
+}
+@media (max-width: 570px){
+    .select{
+        font-size: 10px;
+        font-weight: 700;   
+    }
+}

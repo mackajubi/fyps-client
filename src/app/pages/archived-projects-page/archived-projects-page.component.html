@@ -1,0 +1,126 @@
+<div class="projects-wrapper">
+  <div class="projects-inner-wrapper" *ngIf="homeBtn =='home'">
+    <div class="projects-controls-wrapper animated fadeIn _delay5ms">
+      <div class="dataTables_length">
+        <form [formGroup]="archivedProjectsForm">
+          <div class="col-md-4 col-sm-4 col-xs-12 _show">
+            <label>Show</label>
+            <select class="form-control _search" formControlName="size" (ngModelChange)="_show(size = $event)">
+              <option value="10" ng-reflect-value="10">10</option>
+              <option  value="25" ng-reflect-value="25">25</option>
+              <option  value="50" ng-reflect-value="50">50</option>
+              <option  value="100" ng-reflect-value="100">100</option>
+            </select>
+            <label  class="_entries"> entries of <strong>{{ total }}</strong></label> 
+          </div>
+          <div  class="dataTables_filter col-sm-3 col-xs-12">
+            <input  class="form-control" [(ngModel)]="search" placeholder="Search" formControlName="search" type="search" >
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="projects-table-wrapper">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th class="count">#</th>
+            <th class="group-name">Groups</th>
+            <th class="group-members-th">Members</th>
+            <th class="project-title">Project Titles</th>
+            <th class="project-supervisor">Supervisors</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="animated fadeInUp _delay{{ i + 3}}ms" (click)="_viewGroup(i)" *ngFor="let project of archivedProjects | archivedProjectsFilter:search | paginate: {id: 'archiveProjects', itemsPerPage: pageSize, currentPage: page }; let i = index;">
+            <td class="count">{{ i + 1 }}</td>
+            <td class="group-name">{{ project.group_name }}</td>
+            <td class="group-members-td">
+              <ul class="project-group-members">
+                <li *ngFor="let member of project.members; let i = index;">{{ member.name }}</li>
+              </ul>
+            </td>
+            <td class="project-title">{{ project.title }}</td>
+            <td class="project-supervisor">{{ project.supervisor }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="_pagiantionContainer has-text-centered">
+        <pagination-controls id="archiveProjects" (pageChange)="page = $event"></pagination-controls>
+      </div>    
+    </div>    
+  </div>
+  <div class="projects-inner-wrapper" *ngIf="homeBtn =='details'">
+    <div class="project-details">
+      <div class="col-sm-3">     
+        <div class="col-xs-12" *ngFor="let member of projectDetails.members; let i = index;">
+          <img src="/assets/img/users/{{ member.img }}" *ngIf="member.img; else default" class="animated fadeInLeft _delay0{{ i + 3 }}s _project-member-img"/> 
+          <ng-template #default><img src="/assets/img/users/no-image.jpg" class="_project-member-img animated fadeInLeft _delay0{{ i + 3 }}s "/></ng-template>
+          <span class="member-name animated fadeInRight _delay0{{ i * 3 }}s ">{{ member.name }}</span>          
+        </div>
+      </div>
+      <div class="col-sm-5">
+        <div class="col-xs-12">
+          <h5 class="col-xs-3">Group Name:</h5>
+          <span class="col-xs-8 details-span animated fadeInDown _delay08s">{{ projectDetails.group_name }}</span>
+        </div>
+        <div class="col-xs-12">
+          <h5 class="col-xs-3">Project Title: </h5>
+          <span class="col-xs-8 details-span animated fadeInDown _delay07s">{{ projectDetails.title }}</span>
+        </div>
+        <div class="col-xs-12">
+          <h5 class="col-xs-3">Blog Url:</h5>
+          <span class="col-xs-8 details-span animated fadeInDown _delay06s"><a href="http://finalyrprojects.pythonanywhere.com/">finalyrprojects.pythonanywhere.com</a></span>
+        </div>
+        <div class="col-xs-12 description">
+          <h5 class="col-xs-3">Project Description:</h5>
+          <span class="col-xs-8 details-span animated fadeIn _delay04s">The mission is to provide first class teaching, research and services in Computing and Informatics Technology responsive to national and international needs. They offer high quality teaching services and promote research activities together with outreach in the broad field of computer science, data communications and software engineering, information systems and information technology.</span>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="col-xs-12">
+          <img src="/assets/img/users/{{ projectDetails.supervisor_img }}" *ngIf="projectDetails.supervisor_img; else defaultSupervisorImg" class="_project-supervisor-img animated fadeIn _delay06s"/> 
+          <ng-template #defaultSupervisorImg><img src="/assets/img/users/no-image.jpg" class="_project-supervisor-img animated fadeIn _delay06s"/></ng-template>
+        </div>
+        <div class="col-xs-12 group-name">
+          <h5 class="col-xs-3">Name: </h5>
+          <span class="col-xs-8 details-span animated fadeInRight _delay03s">{{ projectDetails.supervisor }}</span>
+        </div>
+        <div class="col-xs-12 group-name">
+          <h5 class="col-xs-3">Email:</h5>
+          <span class="col-xs-8 details-span animated fadeInRight _delay06s"><a href="mailto:amwotil@cis.mak.ac.ug">amwotil@cis.mak.ac.ug</a></span>
+        </div>
+        <div class="col-xs-12 group-name">
+          <h5 class="col-xs-3">Contact:</h5>
+          <span class="col-xs-8 details-span animated fadeInRight _delay08s">0772 084 725</span>
+        </div>
+        <div class="col-xs-12 group-name">
+          <h5 class="col-xs-3">Department:</h5>
+          <span class="col-xs-8 details-span animated fadeInRight _delay1s">{{ projectDetails.department }}</span>
+        </div>
+      </div>
+      <div class="project-files">
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th class="count">#</th>
+                <th class="file-name">Name</th>
+                <th class="file-data-published">Date Published</th>
+                <th class="file-document-path">Document</th>
+                <th class="file-mark">Marks</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let file of projectDetails.files; let i = index;" (click)="_readDocument(file.file_path)">
+                <td class="count animated fadeIn _delay06s">{{ i + 1 }}</td>
+                <td class="file-name animated fadeIn _delay06s">{{ file.name }}</td>
+                <td class="file-data-published animated fadeIn _delay06s">{{ file.date_published }}</td>
+                <td class="file-document-path animated fadeIn _delay06s">{{ file.file_path }}</td>
+                <td class="file-mark animated fadeIn _delay06s">{{ file.marks }}</td>
+              </tr>
+            </tbody>
+          </table>        
+      </div>     
+    </div>
+  </div>
+</div>
+<fiyps-footer class="_min-footer"></fiyps-footer>  

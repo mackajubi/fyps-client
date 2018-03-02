@@ -1,0 +1,69 @@
+
+.page-content{
+    height: 100% !important;
+}
+._project-member-img{
+    width: 55px;
+    padding: 0px;
+    border-radius: 0px;
+    margin-left: 5px;
+    margin-bottom: 5px;
+}
+.details-span{
+    margin-top: 5px;
+}
+.member-name{
+    text-transform: capitalize;
+}
+.description{
+    display: block;
+}
+._project-supervisor-img{
+    width: 100px;
+    padding: 0px;
+    margin-left: 40px;
+}
+/* Media Queries */
+@media only screen and (max-width: 480px){
+    .group-members-th,
+    .group-members-td,
+    .project-supervisor{
+        display: none;
+    }
+    .project-title{
+        width: 74%;
+    }      
+}
+@media only screen and (max-width: 340px){
+    .project-title{
+        width: 65%;
+    }    
+}
+@media only screen and (max-width: 339px){
+    ._pagiantionContainer {
+        margin-right: 2px;
+    }    
+}
+@media only screen and (max-width: 299px){
+    ._pagiantionContainer {
+        margin-right: -4px;
+        float: unset;
+        margin-left: 2px;
+    }    
+    .ngx-pagination li {
+        margin-top: 2px;
+    }    
+}
+@media only screen and (max-width: 269px){
+    .group-name{
+        display: none;
+    }   
+    .project-title{
+        width: 90%;
+    } 
+}
+@media only screen and (max-width: 256px){
+    .page-content{
+        min-width: 246px;
+    }
+}

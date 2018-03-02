@@ -1,0 +1,9 @@
+<div class="component-wrapper animated fadeIn">
+  <div class="refresh-wrapper">
+    <fiyps-refresh [visibility]="visibility"></fiyps-refresh>
+  </div>
+  <div class="inner-wrapper">
+    <p *ngFor="let l of logs">{{ l.log }}</p>
+  </div>
+</div>
+<fiyps-footer class="_min-footer"></fiyps-footer>

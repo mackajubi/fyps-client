@@ -1,0 +1,148 @@
+.profile-wrapper{
+    padding: 4px;
+    padding-bottom: 0px;
+    box-shadow: 0px 1px 1px 0px #272b30;
+    margin: 6px 10px;
+}
+.inner-wrapper{
+    background: #ffffff00;
+}
+/* Student */
+.profile-img{
+    text-align: center
+}
+.profile-img > div{
+    height: 133px;
+}
+.profile-img > div > img{
+    width: 136px;
+    padding: 0px;
+}
+.browse-img{
+    width: 270px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 126px !important;
+    margin-top: 10px;
+}
+.profile-course{
+    padding: 0px;
+}
+.profile-course > h4{
+    text-align: left;
+    margin-top: 3px;
+    padding: 0px;
+    font-size: 13px;
+}
+.profile-course > h4 > span{
+    font-size: 1.2rem;
+    padding: 2px 0px 0px 10px;
+    font-weight: 600;
+}
+
+.incorrect-pwd{
+    border-color: #E04B4A;
+}
+.correct-pwd{
+    border-color: #0cc10ccc !important;
+}
+.valid-tick{
+    color: #0cc10ccc;
+    border: 2px solid #0cc10ccc;
+    padding: 1px 3px;
+    font-size: 15px;
+    border-radius: 50%;
+    margin-left: 10px;
+    display: none;
+}
+.new-pwd{
+    margin: 10px 0px;
+}
+.confirm-pwd{
+    margin-left: 3%;
+}
+.new-pwd,
+.confirm-pwd{
+    visibility: hidden;
+}
+.visible{
+    visibility: visible !important;
+}
+.old-pwd,
+.new-pwd,
+.confirm-pwd{
+    text-align: center;
+    width: 41%;
+    display: inline-block;
+    margin-bottom: -2px;
+}
+.new-pwd,
+.confirm-pwd{
+    margin-bottom: -2px;
+}
+._sm-course{
+    display: none;
+}
+.labels-group{
+    background: #0cc10c6b;
+    color: #23252a;
+    padding: 8px 0px;
+}
+.labels-group > div{
+    padding: 0px;
+}
+.field-containers{
+    display: inline-block;
+    padding: 0px;
+}
+.hash-label,
+.hash-field{
+    width: 3%;
+}
+.hash-field{
+    padding-top: 6px;
+}
+.name-label{
+
+}
+.reg-no-label{
+
+}
+.contact-label{
+
+}
+.email-label{
+
+}
+.name-field{
+    width: 89%; 
+}
+.reg-no-field,
+.contact-field{
+    width: 99%;   
+}
+.email-field{
+    width: 100%;   
+}
+.name-field,
+.reg-no-field,
+.contact-field,
+.email-field{
+    padding: 6px;
+    border: 0px;
+    border-bottom: 1px solid #d5d5d5; 
+}
+textarea[name="description"]{
+    resize: none;
+}
+.profile-tbody > tr > td > .form-group > div{
+    padding: 0px;
+}
+/* Supervisor */
+.sup.profile-password{
+    width: 70%;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 15px;
+    transition: all .5s ease-in-out;
+}
