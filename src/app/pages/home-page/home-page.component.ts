@@ -7,8 +7,8 @@ import * as $ from 'jquery';
   styleUrls: ['./home-page.component.css']
 })
 export class HomeComponent implements OnInit {
-  private searchForm;
-  private progress: any[];
+   searchForm;
+   progress: any[];
 
   constructor() { }
 

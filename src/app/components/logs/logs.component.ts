@@ -7,8 +7,8 @@ import { ApiService } from '../../api.service';
   styleUrls: ['./logs.component.css']
 })
 export class LogsComponent implements OnInit {
-  private logs: any[] = null;
-  private visibility: boolean = false;
+   logs: any[] = null;
+   visibility: boolean = false;
 
   constructor( private api: ApiService) {
     this._fetch();

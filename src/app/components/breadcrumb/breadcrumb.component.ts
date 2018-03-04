@@ -12,10 +12,7 @@ export class BreadcrumbComponent implements OnInit{
   //@Input() _cat: String = null;
   //@Input() _new_path: String = null;
   //@Input() _hide: String = null;
-  @Input() currentGroup:string = null;
-  @Input() currentGroupFile:string = null;
-
-  private breadcrumb = [];
+   breadcrumb = [];
 
   @Input()
   set setBreadcrumb(currentGroup: any[]){
@@ -23,13 +20,13 @@ export class BreadcrumbComponent implements OnInit{
     console.log(currentGroup);
   }
 
-  private newPostForm;
-  private maxLengthTitle: number = 20;
-  private maxLength: number = 400;
-  private currentTitleSize: number = 0;
-  private currentSize: number = 0;
+   newPostForm;
+   maxLengthTitle: number = 20;
+   maxLength: number = 400;
+   currentTitleSize: number = 0;
+   currentSize: number = 0;
 
-  @Output() private event = new EventEmitter<string>();
+  @Output()  event = new EventEmitter<string>();
   
   constructor(private api: ApiService){
 

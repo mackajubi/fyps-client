@@ -10,12 +10,12 @@ import { ApiService } from '../../api.service';
   styleUrls: ['./uploaded-files.component.css']
 })
 export class UploadedFilesComponent implements OnInit {
-  private confirmDeleteForm;
-  public files: any[] = null;
-  private visibility: boolean = false;
-  private deleteSeletedFile: number = 0;
+   confirmDeleteForm;
+   files: any[] = null;
+   visibility: boolean = false;
+   deleteSeletedFile: number = 0;
 
-  @Input() private userType: string = null;
+  @Input()  userType: string = null;
 
   constructor(private api: ApiService) {
     this._fetchFiles();

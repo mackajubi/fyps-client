@@ -10,39 +10,39 @@ import * as $ from 'jquery';
   styleUrls: ['./profile-page.component.css']
 })
 export class ProfilePageComponent implements OnInit {
-  private url: string = null;
-  private token: string = null;
-  private imgMaxUpload: number = 1;
-  private userType: string = null;
-  private userImg: string = null;
-  private studentForm :FormGroup;
-  private supervisorForm :FormGroup;
-  private groupForm :FormGroup;
-  private titleSize: number = 0;
-  private descSize: number = 0;
-  private nameSize: number = 0;
-  private emailSize: number = 0;
-  private contactSize: number = 0;
-  private courseSize: number = 0;
+   url: string = null;
+   token: string = null;
+   imgMaxUpload: number = 1;
+   userType: string = null;
+   userImg: string = null;
+   studentForm :FormGroup;
+   supervisorForm :FormGroup;
+   groupForm :FormGroup;
+   titleSize: number = 0;
+   descSize: number = 0;
+   nameSize: number = 0;
+   emailSize: number = 0;
+   contactSize: number = 0;
+   courseSize: number = 0;
 
-  private maxTitleLength: number = 100;
-  private maxDescLength: number = 500;
-  private maxPwdLength: number = 15;
-  private maxNameLength: number = 40;
-  private maxEmailLength: number = 40;
-  private maxContactLength: number = 15;
-  private maxCourseLength: number = 40;
+   maxTitleLength: number = 100;
+   maxDescLength: number = 500;
+   maxPwdLength: number = 15;
+   maxNameLength: number = 40;
+   maxEmailLength: number = 40;
+   maxContactLength: number = 15;
+   maxCourseLength: number = 40;
 
-  private minTitleLength: number = 10;
-  private minDescLength: number = 500;
-  private minPwdLength: number = 6;
-  private minNameLength: number = 10;
-  private minEmailLength: number = 15;
-  private minContactLength: number = 10;
-  private minCourseLength: number = 2;
+   minTitleLength: number = 10;
+   minDescLength: number = 500;
+   minPwdLength: number = 6;
+   minNameLength: number = 10;
+   minEmailLength: number = 15;
+   minContactLength: number = 10;
+   minCourseLength: number = 2;
 
-  private oldPassword: string = null;
-  private formFields: any[] = null;
+   oldPassword: string = null;
+   formFields: any[] = null;
 
   constructor( private api: ApiService, private formBuilder: FormBuilder ) { 
     this.url = this.api._getApiUrl();

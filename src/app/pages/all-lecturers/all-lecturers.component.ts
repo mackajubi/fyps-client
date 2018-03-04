@@ -9,20 +9,20 @@ import { ApiService } from '../../api.service';
   styleUrls: ['./all-lecturers.component.css']
 })
 export class AllLecturersComponent implements OnInit {
-  private userType: string = null;
-  private supervisors: any[] = null;
-  private confirmDeleteForm;
-  private identifier: string = null;
+   userType: string = null;
+   supervisors: any[] = null;
+   confirmDeleteForm;
+   identifier: string = null;
 
-  private groupsForm;
-  private isDesc: boolean;
-  private column: string;
-  private direction: number;
-  private pageSize: number;
-  private page: number;
-  private total: number;
-  private show: string = null;
-  private supervisorData: any[];
+   groupsForm;
+   isDesc: boolean;
+   column: string;
+   direction: number;
+   pageSize: number;
+   page: number;
+   total: number;
+   show: string = null;
+   supervisorData: any[];
   constructor(private api: ApiService) {
     this.userType = this.api._getUserType();
    }

@@ -9,11 +9,11 @@ import { ApiService } from '../../api.service';
   styleUrls: ['./document-review.component.css']
 })
 export class DocumentReviewComponent implements OnInit {
-  private content;
-  private docReviewForm;
-  private visibility: boolean = true;
+   content;
+   docReviewForm;
+   visibility: boolean = true;
 
-  @Input() private userType: string = null;
+  @Input()  userType: string = null;
 
   constructor(private api: ApiService) { }
 

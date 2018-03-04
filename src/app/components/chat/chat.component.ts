@@ -8,16 +8,16 @@ import { ApiService } from '../../api.service';
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit {
-  private newChatForm;
-  private currentSize: number = 0;
-  private chatMsg: string = null;
-  private maxLength: number = 200;
-  private chats: any[]; 
-  private username: string = null;
-  private userImg: string = null;
-  private visibility: boolean = false;
+   newChatForm;
+   currentSize: number = 0;
+   chatMsg: string = null;
+   maxLength: number = 200;
+   chats: any[]; 
+   username: string = null;
+   userImg: string = null;
+   visibility: boolean = false;
 
-  @Input() private userType: string = null;
+  @Input()  userType: string = null;
 
   constructor(private api: ApiService) {
     this.username = this.api._getUserName();

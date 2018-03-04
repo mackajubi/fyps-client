@@ -11,9 +11,9 @@ import * as $ from 'jquery';
 })
 export class RegisterPageComponent implements OnInit {
   registerForm;
-  private invalid: boolean = false;
-  private invalidCount = null;
-  private redirect: Boolean = false;
+   invalid: boolean = false;
+   invalidCount = null;
+   redirect: Boolean = false;
 
   constructor( private http: HttpClient, private router: Router ) { 
     this.invalidCount = 0;

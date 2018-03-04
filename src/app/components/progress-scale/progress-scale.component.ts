@@ -9,16 +9,16 @@ import { ApiService } from '../../api.service';
   styleUrls: ['./progress-scale.component.css']
 })
 export class ProgressScaleComponent implements OnInit {
-  @Input() private progress: any[] = null;
-
-  private searchForm;
-  private isDesc: boolean;
-  private column: string;
-  private direction: number;
-  private pageSize: number;
-  private page: number;
-  private total: number;
-  private show: string = null;  
+  @Input()  progress: any[] = null;
+  
+   searchForm;
+   isDesc: boolean;
+   column: string;
+   direction: number;
+   pageSize: number;
+   page: number;
+   total: number;
+   show: string = null;  
 
   constructor(private api: ApiService) {    
 

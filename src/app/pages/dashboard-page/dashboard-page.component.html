@@ -84,12 +84,13 @@
             <!-- START X-NAVIGATION VERTICAL -->
             <fiyps-header></fiyps-header>                  
             <!-- START BREADCRUMB -->
-            <fiyps-breadcrumb  (event)="_handleBreadcrumbEvent($event)" currentGroup="{{ currentGroup }}" currentGroupFile="{{ currentGroupFile }}" ></fiyps-breadcrumb>
+            <fiyps-breadcrumb  (event)="_handleBreadcrumbEvent($event)" ></fiyps-breadcrumb>
             <!-- PAGE CONTENT WRAPPER -->
             <div class="page-content-wrap animated fadeIn _delay10ms" [ngSwitch]="switchValue">
                 <div class="_alertContainer animated slideInDown">
                     <div class="alert alert-warning alert-dismissable">
-                        <a class="pointer btn btn-secondary _refresh_btn" (click)="_refreshToken()">Refresh</a>
+                        <!--<a class="pointer btn btn-secondary _refresh_btn" (click)="_refreshToken()">Refresh</a> -->
+                        <a class="pointer btn btn-secondary _refresh_btn">Refresh</a>
                         <a class="close pointer" data-dismiss="alert" aria-label="close">&times;</a>
                     </div>
                 </div>

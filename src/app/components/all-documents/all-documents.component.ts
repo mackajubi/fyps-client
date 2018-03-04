@@ -8,21 +8,21 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class AllDocumentsComponent implements OnInit {
 
-  @Input() private userType: string = null;
-  @Input() private projects: string = null;
+  @Input()  userType: string = null;
+  @Input()  projects: string = null;
 
-  @Output() private onChat = new EventEmitter;
-  @Output() private onViewGroup = new EventEmitter;
-  @Output() private onHistory = new EventEmitter;
+  @Output()  onChat = new EventEmitter;
+  @Output()  onViewGroup = new EventEmitter;
+  @Output()  onHistory = new EventEmitter;
 
-  private projectsForm;
-  private isDesc: boolean;
-  private column: string;
-  private direction: number;
-  private pageSize: number;
-  private page: number;
-  private total: number;
-  private show: string = null;
+   projectsForm;
+   isDesc: boolean;
+   column: string;
+   direction: number;
+   pageSize: number;
+   page: number;
+   total: number;
+   show: string = null;
   
   constructor() { }
 

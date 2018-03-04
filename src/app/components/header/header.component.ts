@@ -10,8 +10,8 @@ import * as $ from 'jquery';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  private today = Date.now();
-  private time = this.today;
+   today = Date.now();
+   time = this.today;
 
   constructor( private http: HttpClient, private route: Router ) { }
 

@@ -12,11 +12,11 @@ import * as $ from 'jquery';
 })
 export class LoginPageComponent implements OnInit {
   loginForm;
-  private invalid: boolean = false;
-  private invalidCount = null;
-  private redirect: Boolean = false;
-  private switch: string = 'login';
-  private smBtn: string = 'login';
+  invalid: boolean = false;
+  invalidCount = null;
+  redirect: Boolean = false;
+  switch: string = 'login';
+  smBtn: string = 'login';
 
   constructor( private http: HttpClient, private router: Router, private api: ApiService ) { 
     this.invalidCount = 0;

@@ -9,14 +9,14 @@ import * as $ from 'jquery';
   styleUrls: ['./select-supervisor.component.css']
 })
 export class SelectSupervisorComponent implements OnInit {
-  private selectForm;
-  private supervisors: any[] = null;
-  private groupCountData: any[] = null;
-  private size: number = 1;
-  private currentSelection: string = null;
+   selectForm;
+   supervisors: any[] = null;
+   groupCountData: any[] = null;
+   size: number = 1;
+   currentSelection: string = null;
 
-  @Output() private onSelect = new EventEmitter;
-  @Output() private onCount = new EventEmitter;
+  @Output()  onSelect = new EventEmitter;
+  @Output()  onCount = new EventEmitter;
 
   constructor(private api: ApiService) {
     // Fetch the data from the service.

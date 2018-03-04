@@ -6,7 +6,7 @@ import { Component, OnInit, Input,OnChanges } from '@angular/core';
   styleUrls: ['./refresh.component.css']
 })
 export class RefreshComponent implements OnInit {
-  @Input() private visibility: boolean = false;
+  @Input()  visibility: boolean = false;
 
   constructor() { }
 

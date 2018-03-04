@@ -8,8 +8,8 @@ import { ApiService } from '../../api.service';
   styleUrls: ['./srs-page.component.css']
 })
 export class SrsPageComponent implements OnInit {
-  private userType: string = null;
-  private projects: any[];
+   userType: string = null;
+   projects: any[];
 
   constructor( private api: ApiService ) {
     this.userType = this.api._getUserType();

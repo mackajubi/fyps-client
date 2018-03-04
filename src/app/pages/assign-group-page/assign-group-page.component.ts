@@ -8,18 +8,18 @@ import { ApiService } from '../../api.service';
   styleUrls: ['./assign-group-page.component.css']
 })
 export class AssignGroupPageComponent implements OnInit {
-  private userType: string = null;
-  private groups: any[] = null;
+   userType: string = null;
+   groups: any[] = null;
 
-  private groupsForm;
-  private isDesc: boolean;
-  private column: string;
-  private direction: number;
-  private pageSize: number;
-  private page: number;
-  private total: number;
-  private show: string = null;
-  private supervisorData: any[];
+   groupsForm;
+   isDesc: boolean;
+   column: string;
+   direction: number;
+   pageSize: number;
+   page: number;
+   total: number;
+   show: string = null;
+   supervisorData: any[];
   
   constructor(private api: ApiService) {
     this.userType = this.api._getUserType();

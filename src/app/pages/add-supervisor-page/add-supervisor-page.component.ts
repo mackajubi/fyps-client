@@ -9,31 +9,31 @@ import { ApiService } from '../../api.service';
   styleUrls: ['./add-supervisor-page.component.css']
 })
 export class AddSupervisorPageComponent implements OnInit {
-  private addSupervisorForm;
-  private searchForm;
+   addSupervisorForm;
+   searchForm;
 
-  private supervisors: any[];
-  private maxNameLength: number = 40;
-  private minNameLength: number = 10;
-  private maxEmailLength: number = 40;
-  private minEmailLength: number = 15;
-  private maxContactLength: number = 15;
-  private minContactLength: number = 10;
-  private maxCourseLength: number = 40;
-  private minCourseLength: number = 2;
+   supervisors: any[];
+   maxNameLength: number = 40;
+   minNameLength: number = 10;
+   maxEmailLength: number = 40;
+   minEmailLength: number = 15;
+   maxContactLength: number = 15;
+   minContactLength: number = 10;
+   maxCourseLength: number = 40;
+   minCourseLength: number = 2;
 
-  private nameSize: number = 0;
-  private emailSize: number = 0;
-  private contactSize: number = 0;
-  private courseSize: number = 0;
+   nameSize: number = 0;
+   emailSize: number = 0;
+   contactSize: number = 0;
+   courseSize: number = 0;
 
-  private isDesc: boolean;
-  private column: string;
-  private direction: number;
-  private pageSize: number;
-  private page: number;
-  private total: number;
-  private show: string = null;  
+   isDesc: boolean;
+   column: string;
+   direction: number;
+   pageSize: number;
+   page: number;
+   total: number;
+   show: string = null;  
 
   constructor(private api: ApiService) { }
 

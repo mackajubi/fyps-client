@@ -10,19 +10,19 @@ import * as $ from 'jquery';
   styleUrls: ['./archived-projects-page.component.css']
 })
 export class ArchivedProjectsPageComponent implements OnInit {
-  private archivedProjectsForm;
-  private archivedProjects: any[] = null;
-  private projectDetails: any[] = null;
-  private isDesc: boolean;
-  private column: string;
-  private direction: number;
-  private pageSize: number;
-  private page: number;
-  private total: number;
-  private show: string = null;
+   archivedProjectsForm;
+   archivedProjects: any[] = null;
+   projectDetails: any[] = null;
+   isDesc: boolean;
+   column: string;
+   direction: number;
+   pageSize: number;
+   page: number;
+   total: number;
+   show: string = null;
 
-  @Input() private showDetails:string = 'home';
-  private homeBtn: string = null;
+  @Input()  showDetails:string = 'home';
+   homeBtn: string = null;
 
   constructor( private api: ApiService) {
     this.homeBtn = this.api._getHomeValue()

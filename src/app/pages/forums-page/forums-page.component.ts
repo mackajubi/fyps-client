@@ -10,20 +10,20 @@ import * as $ from 'jquery';
   styleUrls: ['./forums-page.component.css']
 })
 export class ForumsPageComponent implements OnInit {
-  @Input() private user_name: string = null;
-  @Input() private user_image: string = null;
+  @Input()  user_name: string = null;
+  @Input()  user_image: string = null;
 
   commentForm;
-  private forums: any[] = null;
-  private archivedPosts: any[] = null;
-  private archive: any[] = null;
-  private showArchive: boolean = false;
-  private currentComment: number = -1;
-  private currentReadMoreBtn: number = -1;
-  private readMoreBtn: string = null;
-  private currentSize: number = 0;
-  private maxLength: number = 200;
-  private today =  Date.now();
+   forums: any[] = null;
+   archivedPosts: any[] = null;
+   archive: any[] = null;
+   showArchive: boolean = false;
+   currentComment: number = -1;
+   currentReadMoreBtn: number = -1;
+   readMoreBtn: string = null;
+   currentSize: number = 0;
+   maxLength: number = 200;
+   today =  Date.now();
 
   /* Archived posts variables */
 

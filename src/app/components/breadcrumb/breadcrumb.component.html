@@ -12,7 +12,7 @@
             <span class="pointer animated fadeInLeft _delay4ms">{{ crumb.name }} </span>
         </li>      
     </ul>    
-    <button class="message-control btn btn-info pull-right new-forum animated fadeInRight" *ngIf="_cat == 'Forum'" data-box="#new-post" (click)="_showForm()">new post</button>
+    <!--<button class="message-control btn btn-info pull-right new-forum animated fadeInRight" *ngIf="_cat == 'Forum'" data-box="#new-post" (click)="_showForm()">new post</button>-->
 </div>
 <!-- NEW FORUM POST MESSAGE BOX -->
 <div class="message-box new-post-ms-box _scrollbar animated fadeIn" data-sound="alert" id="new-post">
@@ -28,7 +28,7 @@
                             <ng-template #titleWarning><strong class="_warning">{{ currentTitleSize }}</strong> </ng-template>/ {{ maxLengthTitle }}
                             </span>                            
                         </label>
-                        <input type="text" class="form-control" formControlName="title" maxlength="{{ maxLengthTitle }}" (ngModelChange)="_titleSize(title = $event)">
+                        <input type="text" class="form-control" formControlName="title" maxlength="{{ maxLengthTitle }}" (ngModelChange)="_titleSize($event)">
                     </div>
                     <div class="form-group new-post-form-group">
                         <label for="message">Message 
@@ -37,7 +37,7 @@
                             <ng-template #warning><strong class="_warning">{{ currentSize }}</strong> </ng-template>/ {{ maxLength }}
                             </span>
                         </label>
-                        <textarea class="form-control _scrollbar" maxlength="{{ maxLength }}" formControlName="message" (ngModelChange)="_messageSize(message = $event)" name="message" rows="5"></textarea>
+                        <textarea class="form-control _scrollbar" maxlength="{{ maxLength }}" formControlName="message" (ngModelChange)="_messageSize($event)" name="message" rows="5"></textarea>
                     </div>
                     <div class="mb-footer">
                         <button class="pull-left btn btn-success btn-block _a new-post-submit-btn" type="submit" [disabled]="!newPostForm.valid">Post</button>                        

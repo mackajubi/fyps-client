@@ -11,20 +11,20 @@ import * as $ from 'jquery';
   styleUrls: ['./dashboard-page.component.css']
 })
 export class DashboardPageComponent implements OnInit {
-    private userType: string = null;
-    private _activeClass: String = null;
-    private appName: String = null;
-    private cocis: string = null;
-    private username: String = null;
-    private user_image: string = null;
-    private user_role: String = null;
-    private switchValue:String = null;
-    private sidebarInnerSectionClasses: String[] = null;
-    private flag: string = "_flag";
-    private group_name: string = null;
+     userType: string = null;
+     _activeClass: String = null;
+     appName: String = null;
+     cocis: string = null;
+     username: String = null;
+     user_image: string = null;
+     user_role: String = null;
+     switchValue:String = null;
+     sidebarInnerSectionClasses: String[] = null;
+     flag: string = "_flag";
+     group_name: string = null;
 
     /* Archived Projects Breadcrumb variables */
-    private showDetails: boolean = false;
+     showDetails: boolean = false;
   
     loadAPI: Promise<any>;
   
