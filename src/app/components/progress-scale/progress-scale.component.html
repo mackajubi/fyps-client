@@ -30,7 +30,7 @@
           </tr>
         </thead>      
         <tbody>
-          <tr class="records animated fadeInUp _delay{{ i + 3 }}ms" *ngFor="let p of progress | filter:search | paginate: {id: 'archiveProjects', itemsPerPage: pageSize, currentPage: page }; let i = index">
+          <tr class="records animated fadeInUp _delay{{ i + 3 }}ms" *ngFor="let p of progress | progressScaleFilter:search | paginate: {id: 'archiveProjects', itemsPerPage: pageSize, currentPage: page }; let i = index">
             <td class="progress-count-tb">{{ i + 1 }}</td>
             <td class="progress-group-tb">{{ p.group }}</td>
             <td>

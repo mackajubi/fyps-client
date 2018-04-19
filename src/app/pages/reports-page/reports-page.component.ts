@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as $ from 'jquery';
-import { ApiService } from '../../api.service';
+import { ApiService } from '../../service/api.service';
 
 @Component({
   selector: 'fiyps-reports-page',
@@ -10,6 +10,9 @@ import { ApiService } from '../../api.service';
 export class ReportsPageComponent implements OnInit {
    userType: string = null;
    projects: any[];
+   selectedFileId: string = null;
+   groupDetails:any[] = null;
+   refreshUploadsTableFiles: number = 0;
 
   constructor( private api: ApiService ) {
     this.userType = this.api._getUserType();
@@ -820,6 +823,22 @@ export class ReportsPageComponent implements OnInit {
   /* Chat with the group */
   _history(id){
     console.log("chat history id: " + id)
+  }
+
+  /* Handle selected file */
+  onSelectedFile(id){
+    this.selectedFileId = id
+  }
+
+  /* Recieve the details for the group you have selected */
+  receiveSelectedGroup(event){
+    this.groupDetails = event['groupname'];
+  }  
+  
+  refreshFilesTable(event){
+    console.log("There is need to update the uploads filee table");
+    /* We've made it a number so that angular can detect the increment and effect a GET Request */
+    this.refreshUploadsTableFiles++;
   }
 
 }

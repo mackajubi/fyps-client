@@ -336,6 +336,9 @@ ul.panel-controls > li > a {
 .nav-tabs > li > a {
   padding: 7px 10px;
 }
+.profile-controls{
+  display: inline-block;
+}
 .profile-controls > a{
   display: none;
 }

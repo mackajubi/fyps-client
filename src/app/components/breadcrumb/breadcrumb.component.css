@@ -45,6 +45,10 @@ label{
 }
 textarea[name="message"]{
     resize: none;
+    text-align: left;
+}
+.form-control{
+    text-transform: capitalize;
 }
 .new-post-submit-btn,
 .new-post-close-btn{
@@ -73,3 +77,15 @@ button[disabled], html input[disabled] {
 .mb-title > strong{
     margin-left: 10px;
 }
+.message-box.new-post-ms-box > .mb-container {
+    top: 0px;
+    background: rgba(0, 0, 0, 0.74);
+}
+.pop-up-container{
+    display: inline-flex;
+    position: absolute;
+}
+.pop-up-container > ng2-popup > .ng2-popup-overlay > .popup-container.opened {
+    left: 5px !important;
+    top: 8px !important;
+  }

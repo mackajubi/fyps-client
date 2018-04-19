@@ -1,8 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, ViewChild } from '@angular/core';
 import { UploadEvent, UploadFile } from 'ngx-file-drop';
 import { FormGroup,FormControl, Validators } from '@angular/forms';
 import * as $ from 'jquery';
-import { ApiService } from '../../api.service';
+import { ApiService } from '../../service/api.service';
+import { DROPZONE_CONFIG } from 'ngx-dropzone-wrapper';
+import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
+import { TooltipModule } from "ngx-tooltip";
+import { Ng2PopupComponent, Ng2MessagePopupComponent } from 'ng2-popup';
 
 @Component({
   selector: 'fiyps-uploaded-files',
@@ -10,16 +14,24 @@ import { ApiService } from '../../api.service';
   styleUrls: ['./uploaded-files.component.css']
 })
 export class UploadedFilesComponent implements OnInit {
-   confirmDeleteForm;
-   files: any[] = null;
-   visibility: boolean = false;
-   deleteSeletedFile: number = 0;
+  confirmDeleteForm;
+  files: any[] = null;
+  fileFound: boolean = false;
+  visibility: boolean = false;
+  deleteSeletedFile: number = 0;
+
+  config: DropzoneConfigInterface = { };
+
+  @Output() selectedFile = new EventEmitter;
 
   @Input()  userType: string = null;
+  @Input()  deliverableTypeId: string = null;
+  @Input()  groupDetails: string = null;
+  @Input()  refreshUploadsTableFiles: number = null;
 
-  constructor(private api: ApiService) {
-    this._fetchFiles();
-  }
+  @ViewChild(Ng2PopupComponent) popup: Ng2PopupComponent;
+
+  constructor(private api: ApiService) { }
 
   ngOnInit() {
     this.confirmDeleteForm = new FormGroup({
@@ -30,28 +42,19 @@ export class UploadedFilesComponent implements OnInit {
         Validators.required
       ])),
     });
+
+    this.config = {
+      url: this.api._getUploadFilesEndPoint()+"?token="+this.api._getToken()+"&deliverableTypeId="+this.deliverableTypeId+"&userType="+this.userType,
+      method: 'post',
+      maxFilesize: 3,
+      clickable: true,
+      acceptedFiles: '.pdf,'       
+    };
+
   }
   /* On upload error of the file */
   onUploadError(event){
-    this.visibility = true;
-    console.log(event);
-    $(".dz-wrapper").css("height","auto");
-    console.log("Upload failed");
-    let i = this.files.length + 1;
-    let size = ((event[0].size) / 1000000).toFixed(2);
-    this.files.push({
-      'id': i,
-      'name':event[0].name,
-      'size':size + ' MB',
-      'dateModified':event[0].lastModifiedDate
-    });
-    this.files.reverse();
-    console.log(this.files);
-    setTimeout(() =>{
-      console.log("Wait for 2 seconds");
-      this.visibility = false;
-    },2000);
-    
+    console.log("Request failed::"+event);
   }
   /* Toggle container visibility */
   _slideToggle(container,icon,maxSize){
@@ -61,46 +64,112 @@ export class UploadedFilesComponent implements OnInit {
 
   /* On successful upload of the file */
   onUploadSuccess(event){
-    console.log("File successfully uploaded");
-    console.log(event);
+    this.visibility = true;
+    this._fetchFiles();
+    $(".dz-wrapper").css("height","auto");
+    setTimeout(() =>{
+      this.visibility = false;
+    },500);    
   }
   /* Fetch files from the api */
   _fetchFiles(){
-    console.log("Fetch the files currently in the db");
-    this.files = [
-      {
-        'id':1,
-        'name':'Second draft',
-        'size':'1.2 MB',
-        'dateModified':'Thu Dec 14 2017 07:34:57'
-      },
-      {
-        'id':2,
-        'name':'First draft',
-        'size':'1.2 MB',
-        'dateModified':'Thu Dec 14 2017 07:34:57'
-      },
-    ]
+    this.api._fetchUploadedFiles(this.deliverableTypeId,this.groupDetails).subscribe(data => {
+      if(data['data']){
+        console.log(data['data'])
+        if((data['data'] != 'empty')){
+          this.fileFound = true;
+          this.files = data['data'].reverse();
+        }else{
+          this.fileFound = false;
+          this.files = [];
+        }
+      }else if(data['error']){
+        this.openPopup(data['error']);
+      }      
+    }
+    ,error => console.log(error))    
   }
   /* Remove the selected file */
   _removeFile(id){
-    let ID = parseInt(id) + 1;
-    this.deleteSeletedFile = ID;
+    this.deleteSeletedFile = id;
     console.log(id);
-  }
-  /* Remove the selected file */
-  _clearId(confirmDeleteForm){
-    this.deleteSeletedFile = null;
-    console.log(this.deleteSeletedFile)
+    $("#mb-confirm-delete").addClass("open");
   }
   /* Remove the selected file */
   _yes(rep){
-    console.log("Delete the selected id"+ rep);
     //empty the deleteSelectedFile variable
+    console.log("Delete the selected id"+ rep);
+    $("#mb-confirm-delete").removeClass("open");
+    console.log("Go ahead and delete this file:", this.deleteSeletedFile)
+    $.ajax({
+      type: "POST",
+      url: this.api.getDeleteFileEndpoint(this.deleteSeletedFile),
+      error: ((err) =>{
+        this.openPopup('Request failed.Please contact our IT Support team at mactechlabs1@gmail.com');
+      }),
+      success:((data) =>{
+        if(data['data'] == "success"){
+          console.log("File has been successfully deleted")
+          this.openPopup('File successfully deleted');
+          this._fetchFiles()
+        }else if(data['error']){
+          this.openPopup(data['error']);
+        }
+      })   
+    })
   }
 
+  /* Handle no responses */
   _no(rep){
-    console.log("Delete the selected id" + rep);
     //empty the deleteSelectedFile variable
+    $("#mb-confirm-delete").removeClass("open");
+    this.deleteSeletedFile = null;
   }
+
+  /* Handle Read file event */
+  _readFile(id,studentGroupId,name){
+    this.selectedFile.emit({'id':id,'studentGroupId':studentGroupId,'name':name});
+  }
+
+  /* Handle submission events */
+  _submitForGrading(filename,id,approval){
+    if(approval == 'true'){
+      $.ajax({
+        type:'POST',
+        url: this.api.getSubmitDeliverableEndpoint(id),
+        error: ((err) =>{
+          this.openPopup('Request failed.Please contact our IT Support team at mactechlabs1@gmail.com');
+        }),
+        success:((data) =>{
+          if(data['data']){
+            this.openPopup("The "+filename + " has been successfully submitted for grading");
+            this._fetchFiles();
+          }else{
+            this.openPopup(data['data'])
+          }
+        })
+      })
+    }else{
+      this.openPopup("This file is not ready for submission");
+    }
+
+  }
+
+  /* Pop over */
+  openPopup(msg) {
+    this.popup.open(Ng2MessagePopupComponent, {
+      message: msg,
+    })
+  } 
+
+  ngOnChanges(){
+    if(this.userType == '1'){
+      this.groupDetails = this.api._getUserName()
+    }
+    if(this.groupDetails || (this.refreshUploadsTableFiles != 0)){
+      this._fetchFiles();
+    }
+  }
+
+
 }

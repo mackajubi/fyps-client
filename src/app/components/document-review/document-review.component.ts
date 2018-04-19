@@ -1,7 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, ViewChild, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from  '@angular/forms';
 import * as $ from 'jquery';
-import { ApiService } from '../../api.service';
+import { ApiService } from '../../service/api.service';
+import { Ng2PopupComponent, Ng2MessagePopupComponent } from 'ng2-popup';
 
 @Component({
   selector: 'fiyps-document-review',
@@ -9,66 +10,83 @@ import { ApiService } from '../../api.service';
   styleUrls: ['./document-review.component.css']
 })
 export class DocumentReviewComponent implements OnInit {
-   content;
-   docReviewForm;
-   visibility: boolean = true;
+  fullscreen: boolean = false;
+  visibility: boolean = false;
+  fileId: string = null;
+  studentGroupId: string = null;
+  filename: string = null;
+
+  @Output() refreshUploadsTable = new EventEmitter;
 
   @Input()  userType: string = null;
+  @Input()  selectedFileId: string = null;
+  @Input()  deliverableTypeId: string = null;
 
-  constructor(private api: ApiService) { }
+  @ViewChild(Ng2PopupComponent) popup: Ng2PopupComponent;
+
+  constructor(private api: ApiService) { 
+    
+  }
 
   ngOnInit() {
-    this.docReviewForm = new FormGroup({
-      content: new FormControl(),
-    })
+
   }
 
   /* Toggle container visibility */
   _slideToggle(container,icon,maxSize){
     $("."+icon+" > .icon").toggleClass("closed");
+    $(".document-review-wrapper > .defaults-container").slideToggle("fast","linear");
     this.api._slideToggle(container,icon,maxSize);
   }
   
-
-  onEditorChange(event){
-    console.log("On editor change: " + event);
-  }
-
-  onChange(event){
-    console.log("on change: " + event);
-  }
-
-  onReady(event){
-    console.log("editor ready");
-    this.content = `<p> editor is ready </p>`
-    this._fetch();
-    this.visibility = false;
-  }
-
-  onFocus(event){
-    console.log("on focus")
-  }
-  
-  onBlur(event){
-    console.log("on Blur")
-  }
-
-  onContentDom(event){
-    console.log("content dom:" + event);
-  }
-
-  onFileUploadRequest(event){
-    console.log("On file upload:" + event);
-  }
-
-  _fetch(){
-    this.content = "assets/doc/Course Outline.docx";
-  }
-
+/*
   onSave(event){
     event.preventDefault();
     console.log("Data recieved from the form.")
     console.log(event)
+  }
+*/
+  /* Approve file event */
+  _approveFile(){
+    $.ajax({
+      type: "GET",
+      url: this.api.getApproveDeliverableEndPoint()+"/"+this.fileId+"/"+this.studentGroupId+"?token="+this.api._getToken(),
+      error:((error) =>{
+        this.openPopup('Request failed.Please contact our IT Support team at mactechlabs1@gmail.com');
+      }),
+      success:((data) =>{
+        this.openPopup('Deliverable approved');
+        this.refreshUploadsTable.emit();
+      })      
+    })
+  }
+
+  /* Handle toggle fullscreen */
+  toggleFullScreen(mode){
+    if(mode === 'full'){
+      this.fullscreen = true;
+      $(".pdfViewerContainer").addClass("fullscreen-pdfViewerContainer");
+    }else if (mode === 'restore'){
+      this.fullscreen = false;
+      $(".pdfViewerContainer").removeClass("fullscreen-pdfViewerContainer");
+    }
+  }
+
+  /* Pop over */
+  openPopup(msg) {
+    this.popup.open(Ng2MessagePopupComponent, {
+      message: msg,
+    })
+  } 
+
+  ngOnChanges(){
+    if (this.selectedFileId){
+      /* Fetch the file */
+      this.filename = this.selectedFileId['name'];
+      this.fileId = this.selectedFileId['id'];
+      this.studentGroupId = this.selectedFileId['studentGroupId'];
+      console.log(this.studentGroupId)
+    }
   }
 
 }

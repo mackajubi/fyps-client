@@ -1,0 +1,20 @@
+<div class="wrapper">
+  <div class="row">
+    <div class="col-sm-3 groupName _widget-scrollbar" *ngIf="userType == '2' || userType == '3'">
+      <fyps-supervision-groups (selectedGroup)="receiveSelectedGroup($event)"></fyps-supervision-groups>
+    </div>
+    <div [ngClass]="{'col-sm-12': userType == '1','col-sm-9': userType == '2' || userType == '3'}" class="no-right-padding">
+      <fiyps-uploaded-files [refreshUploadsTableFiles]="refreshUploadsTableFiles" [groupDetails]="groupDetails" [deliverableTypeId]="'3'" (selectedFile)="onSelectedFile($event)" [userType]="userType"></fiyps-uploaded-files>
+    </div>
+  </div>
+  <fiyps-document-review (refreshUploadsTable)="refreshFilesTable($event)" [deliverableTypeId]="'3'" [selectedFileId]="selectedFileId" [userType]="userType"></fiyps-document-review>
+  <fiyps-chat [groupDetails]="groupDetails" [deliverableTypeId]="'3'" [userType]="userType"></fiyps-chat>
+  <fiyps-all-documents 
+    [projects]="projects" 
+    [userType]="userType"
+    (onViewGroup)="_viewGroup($event)"
+    (onChat)="_chat($event)"
+    (onHistory)="_history($event)"
+    ></fiyps-all-documents>
+  <fiyps-footer class="_min-footer"></fiyps-footer>  
+</div>

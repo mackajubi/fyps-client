@@ -1,7 +1,8 @@
-import { Component,OnInit,OnChanges, Input, Output, EventEmitter } from '@angular/core';
+import { Component,OnInit,OnChanges, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import * as $ from 'jquery';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ApiService } from '../../api.service';
+import { ApiService } from '../../service/api.service';
+import { Ng2PopupComponent, Ng2MessagePopupComponent } from 'ng2-popup';
 
 @Component({
   selector: 'fiyps-breadcrumb',
@@ -21,12 +22,17 @@ export class BreadcrumbComponent implements OnInit{
   }
 
    newPostForm;
-   maxLengthTitle: number = 20;
-   maxLength: number = 400;
+   maxLengthTitle: number = 90; // The other 10 characters are attached from the API
+   maxLength: number = 20000;
    currentTitleSize: number = 0;
    currentSize: number = 0;
 
+  @Input() showNewForumBtn: boolean = false;
+
   @Output()  event = new EventEmitter<string>();
+  @Output()  refreshPosts = new EventEmitter<string>();
+
+  @ViewChild(Ng2PopupComponent) popup: Ng2PopupComponent;
   
   constructor(private api: ApiService){
 
@@ -78,8 +84,26 @@ export class BreadcrumbComponent implements OnInit{
   }
   /* Submit post */
   _submitForm(data){
-    console.log("New post data");
-    console.log(data)
+    $.ajax({
+      type: "POST",
+      data:data,
+      url: this.api.getForumPostsEndpoint(),
+      error:((err)=>{
+        this.openPopup('Request failed.Please contact our IT Support team at mactechlabs1@gmail.com');
+      }),
+      success:((data)=>{
+        if(data['data'] === 'success'){
+          this.openPopup('Your post has been successfully shared');
+          this.newPostForm.setValue({
+            title:'',
+            message:''
+          });
+          this.refreshPosts.emit();
+        }else{
+          this.openPopup(data['error']);
+        }
+      })
+    })
   }
   /* Return to the pages' landing page */
   _return(category){
@@ -87,4 +111,17 @@ export class BreadcrumbComponent implements OnInit{
       this.api._setHomeValue('home');
     }
   }
+
+  /* Pop over */
+  openPopup(msg) {
+    this.popup.open(Ng2MessagePopupComponent, {
+      message: msg,
+    })
+  } 
+
+
+  ngOnChanges(){
+
+  }
+
 }

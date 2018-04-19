@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ApiService } from '../../api.service';
+import { ApiService } from '../../service/api.service';
 
 @Component({
   selector: 'fiyps-assign-group-page',

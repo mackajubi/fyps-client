@@ -8,7 +8,8 @@
     The example in this cookbook is a dynamic form to build an online application experience for heroes seeking employment. The agency is constantly tinkering with the application process. You can create the forms on the fly without changing the application code.          
 </p>
 -->
-<div class="document-review-wrapper" *ngIf="userType == 'student' || userType == 'supervisor'">
+<ng2-popup class="animated fadeInDown _delay4ms" #popup></ng2-popup> 
+<div class="document-review-wrapper" *ngIf="userType == '1' || userType == '2'">
 <!--
     <iframe 
       height="500"
@@ -17,17 +18,35 @@
     ></iframe>
 -->
   
-    <div class="document-review-header" (click)="_slideToggle('document-review-display-section','document-review-header-icon')">
-        <div class="document-review-header-icon">
-            <i class="fas fa-caret-down icon"></i>
-        </div>
-        <div class="document-review-header-title">
-            <h4>Document Review</h4>
-            <span>Second Draft</span>
+    <div class="document-review-header">
+        <span (click)="_slideToggle('document-review-display-section','document-review-header-icon')">
+            <div class="document-review-header-icon">
+                <i class="fas fa-caret-down icon"></i>
+            </div>
+            <div class="document-review-header-title">
+                <h4>Document Review</h4>
+                <span>{{ filename }}</span>
+            </div>
+        </span>
+        <div class="resize-container">
+            <tooltip-content #full [animation]="true">
+                <small>fullscreen</small>
+            </tooltip-content>       
+            <button *ngIf="!fullscreen" class="btn btn-primary animated fadeIn _delay3ms" [tooltip]="full" (click)="toggleFullScreen('full')">
+                <img src="/assets/img/icons/ic_fullscreen_white_24dp/web/ic_fullscreen_white_24dp_1x.png" class="img-fluid">
+            </button>
+            <tooltip-content #restore [animation]="true">
+                <small>restore</small>
+            </tooltip-content>       
+            <button *ngIf="fullscreen" class="btn btn-primary animated fadeIn _delay4ms" [tooltip]="restore" (click)="toggleFullScreen('restore')">
+                <img src="/assets/img/icons/ic_fullscreen_exit_white_24dp/web/ic_fullscreen_exit_white_24dp_1x.png" class="img-fluid">
+            </button>
         </div>
     </div>
-    <div class="document-review-display-section _scrollbar">
+    <div class="document-review-display-section _scrollbar" *ngIf="fileId">
+        <!--
         <fiyps-refresh [visibility]="visibility"></fiyps-refresh>
+        
         <form [formGroup]="docReviewForm" (ngSubmit)="onSubmit(docReviewForm)">
             <ckeditor
                 formControlName="content"
@@ -45,9 +64,14 @@
                 debounce="500">
             </ckeditor>
         </form>
-        <div class="document-review-save-btn pull-right">
-        <button class="btn btn-info">Save</button>
+        -->
+        <fiyps-pdf-reader [deliverableTypeId]="deliverableTypeId" [studentGroupId]="studentGroupId" [params]="fileId"></fiyps-pdf-reader>
+        <div *ngIf="userType == '2'" class="document-review-save-btn pull-right">
+            <button class="btn btn-info" (click)="_approveFile()">Approve</button>
         </div>
     </div>
+    <div class="defaults-container animated fadeIn _delay4ms" *ngIf="!fileId">
+        <img src="./assets/img/defaults/noDocumentReview.fw.png" class="img-fluid" />
+    </div>   
 </div>
 

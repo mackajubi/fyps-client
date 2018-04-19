@@ -12,11 +12,14 @@
             <span class="pointer animated fadeInLeft _delay4ms">{{ crumb.name }} </span>
         </li>      
     </ul>    
-    <!--<button class="message-control btn btn-info pull-right new-forum animated fadeInRight" *ngIf="_cat == 'Forum'" data-box="#new-post" (click)="_showForm()">new post</button>-->
+    <button class="message-control btn btn-info pull-right new-forum animated fadeInRight" *ngIf="showNewForumBtn" data-box="#new-post" (click)="_showForm()">new post</button>
 </div>
 <!-- NEW FORUM POST MESSAGE BOX -->
-<div class="message-box new-post-ms-box _scrollbar animated fadeIn" data-sound="alert" id="new-post">
+<div class="message-box new-post-ms-box animated fadeIn" data-sound="alert" id="new-post"> 
     <div class="mb-container">
+        <div class="pop-up-container">
+            <ng2-popup class="animated fadeInDown _delay4ms" #popup></ng2-popup>    
+        </div>
         <div class="mb-middle">
             <div class="mb-title"><span class="fas fa-share-alt"></span><strong>Share</strong> ?</div>            
             <div class="mb-content">
@@ -37,11 +40,11 @@
                             <ng-template #warning><strong class="_warning">{{ currentSize }}</strong> </ng-template>/ {{ maxLength }}
                             </span>
                         </label>
-                        <textarea class="form-control _scrollbar" maxlength="{{ maxLength }}" formControlName="message" (ngModelChange)="_messageSize($event)" name="message" rows="5"></textarea>
+                        <textarea class="form-control _widget-scrollbar" maxlength="{{ maxLength }}" formControlName="message" (ngModelChange)="_messageSize($event)" name="message" rows="25"></textarea>
                     </div>
                     <div class="mb-footer">
-                        <button class="pull-left btn btn-success btn-block _a new-post-submit-btn" type="submit" [disabled]="!newPostForm.valid">Post</button>                        
-                        <button class="pull-right btn btn-default mb-control-close new-post-close-btn" (click)="_hideForm()">Close</button>
+                        <button class="pull-right btn btn-success btn-block _a new-post-submit-btn" type="submit" [disabled]="!newPostForm.valid">Post</button>                        
+                        <button class="pull-left btn btn-default mb-control-close new-post-close-btn" (click)="_hideForm()">Close</button>
                     </div>                    
                 </form>
             </div>

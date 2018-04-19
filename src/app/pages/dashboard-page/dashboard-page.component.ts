@@ -1,7 +1,7 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { ApiService } from '../../api.service';
+import { ApiService } from '../../service/api.service';
 import {Observable} from 'rxjs/Rx';
 import * as $ from 'jquery';
 
@@ -21,7 +21,8 @@ export class DashboardPageComponent implements OnInit {
      switchValue:String = null;
      sidebarInnerSectionClasses: String[] = null;
      flag: string = "_flag";
-     group_name: string = null;
+     showNewForumBtn: boolean = false;
+     refreshPosts: number = 0;
 
     /* Archived Projects Breadcrumb variables */
      showDetails: boolean = false;
@@ -29,19 +30,12 @@ export class DashboardPageComponent implements OnInit {
     loadAPI: Promise<any>;
   
     constructor(private http: HttpClient, private api: ApiService, private route: Router) {
-      this.group_name = "BSE18-10";
       this.userType = this.api._getUserType();
-      this._activeClass = "Server"; //home
       this.appName = "FIYPS";
       this.cocis = "COCIS";
       this.username = this.api._getUserName();
       this.user_image = this.api._getUserImg();
-      this.user_role = "Full Stack Developer";
-      this.sidebarInnerSectionClasses = ["serverLog","databaseLog","errorLogs","systemLogs","student","add","assignGroup","home","forum","arcPros","conPp","reqTls","srs","report","profile"];
-      this.api._getBreadcrumb().subscribe((item) => {
-        this.switchValue = item['name'];  
-        this._navSwitch(this.switchValue,item['className']);
-      });
+      this.sidebarInnerSectionClasses = ["serverLog","databaseLog","errorLogs","systemLogs","student","add","assignGroup","home","forum","arcPros","conPp","reqTls","srs","sdd","report","profile"];
       
       this.loadAPI = new Promise((resolve) => {
         this.loadScript();
@@ -59,7 +53,13 @@ export class DashboardPageComponent implements OnInit {
       setTimeout(() =>{
         $(".profile-controls > a").fadeIn();
       },2500);
-  
+      
+      this.api._getBreadcrumb().subscribe((item) => {
+        this.switchValue = item['name'];  
+        this._activeClass = item['className'];
+        this._navSwitch(this.switchValue,this._activeClass);
+      });
+
     }
   
     /* Load 3rd party Scripts */
@@ -91,6 +91,12 @@ export class DashboardPageComponent implements OnInit {
       this.switchValue = activated;
       this.api._updateBreadcrumb(1,this.switchValue, className)
       this._sidebarSettings(className);
+      if( activated === 'Forum'){
+        console.log("The forum page has been accessed");
+        this.showNewForumBtn = true
+      }else{
+        this.showNewForumBtn = false
+      }
     }
 
     _handleBreadcrumbEvent(e){
@@ -145,5 +151,15 @@ export class DashboardPageComponent implements OnInit {
   
     */
   
+    /* Handle the refresh post event */
+    onRefreshPosts(event){
+      this.refreshPosts++;
+    }
+
+    /* Handle user image change event */
+    onUserImageChange(event){
+      this.user_image = event;
+    }
+
   }
   

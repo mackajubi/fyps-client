@@ -6,6 +6,7 @@
 }
 .uploads-table > div{
     padding: 0px;
+    min-height: 250px;
     max-height: 250px;
     overflow: hidden;
 }
@@ -16,6 +17,7 @@
     background: #0cc10c6b;
     color: #23252a;
     padding: 6px 8px;
+    text-align: center;
 }
 .uploads-table > div  > table > tbody > tr{
     transition: all .4s ease-in-out;
@@ -26,10 +28,16 @@
 }
 .file-name{
     text-transform: capitalize;
+    cursor: pointer;
+    text-align: left !important;
+}
+.other-tables{
+    cursor: default;
 }
 .uploads-table > div  > table > tbody > tr > td{
     padding: 2px 8px;
     vertical-align: middle;
+    text-align: center;
 }
 .remove-btn{
     background: #e04b4a9c !important;;
@@ -38,11 +46,12 @@
     transition: all .4s ease-in-out;
 }
 .remove-btn:hover{
-    background: #e04a4a !important;;
+    background: #e04a4a !important;
 }
 .drop-zone-wrapper{
     cursor: pointer;
     border: 2px dashed #4d4f53;
+    min-height: 241px;
     max-height: 250px;
     text-align: center;
     background: url(../../../assets/img/bg.png) left top repeat rgba(238, 237, 236, 0.38);
@@ -62,7 +71,7 @@
     height: auto !important;
 }
 .confirm-delete-title{
-    font-size: 17px !important;
+    /*font-size: 17px !important;*/
 }
 .confrim-delete-form > div{
     display: inline-block;
@@ -77,4 +86,49 @@
 }
 #mb-confirm-delete{
     max-height: unset !important;
+}
+.defaults-container{
+    text-align: center;
+    padding: 0px;
+    padding-top: 20px;
+    overflow: hidden;
+    padding: 20px;
+    padding-bottom: 0px;
+}
+.fullWidth{
+    width: 100%;
+}
+.extra-left-margin{
+    margin-left: -15px;
+}
+.ready-for-submission-btn{
+    background-color: rgba(16, 160, 18, 0.76);
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    border: 0px;
+    padding: 1px 5px;
+    width: 100%;
+    word-wrap: break-word;
+    cursor: default;
+}
+.submit-file-overlay{
+    height: 20px;
+    z-index: 2;
+    width: 15.3%;
+    position: absolute;
+    margin-left: -5px;
+    cursor: pointer;
+}
+@media(max-width:767px){
+    .extra-left-margin-all-pages{
+        margin-left: -15px;
+    }    
+    
+}
+@media(max-width:425px){
+    .defaults-container > img{
+        width: 100%
+    }
+    
 }

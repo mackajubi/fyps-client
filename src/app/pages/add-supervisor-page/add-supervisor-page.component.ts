@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import * as $ from 'jquery';
-import { ApiService } from '../../api.service';
+import { ApiService } from '../../service/api.service';
 
 @Component({
   selector: 'fiyps-add-supervisor-page',

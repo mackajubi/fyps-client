@@ -1,8 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ApiService } from '../../api.service';
-
+import { ApiService } from '../../service/api.service';
+import { Ng2PopupComponent, Ng2MessagePopupComponent } from 'ng2-popup';
 import * as $ from 'jquery';
+import { toBase64String } from '@angular/compiler/src/output/source_map';
 
 @Component({
   selector: 'fiyps-forums-page',
@@ -12,11 +13,13 @@ import * as $ from 'jquery';
 export class ForumsPageComponent implements OnInit {
   @Input()  user_name: string = null;
   @Input()  user_image: string = null;
+  @Input()  refreshPosts: number = 0;
 
   commentForm;
    forums: any[] = null;
    archivedPosts: any[] = null;
    archive: any[] = null;
+   archivedComments: any[] = []
    showArchive: boolean = false;
    currentComment: number = -1;
    currentReadMoreBtn: number = -1;
@@ -24,297 +27,21 @@ export class ForumsPageComponent implements OnInit {
    currentSize: number = 0;
    maxLength: number = 200;
    today =  Date.now();
+   comments: any[] = [];
+   commentsCount:any[] = []
+   likesCount:any[] = []
+   dislikesCount:any[] = []
+
+   @ViewChild(Ng2PopupComponent) popup: Ng2PopupComponent;
 
   /* Archived posts variables */
 
   constructor( private api: ApiService ) {
     this.readMoreBtn = 'read more';
-    $(".animated-forum-element").hide();
-    this.forums = [
-      {
-        'id':1,
-        'img':'user6.jpg',
-        'group_name':'BSE18-2',
-        'name':'Juls',
-        'title':'Scheduling Final Year Project Lecture Time',
-        'time':'5/10/17 11:45',
-        'likes':20,
-        'dislikes':31,
-        'msg':"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-        'comments_count':6,
-        'comments':[
-          {
-            'id':1,
-            'img':'user2.jpg',
-            'group_name':'BSE18-12',
-            'name':'Tom',
-            'time':'5/10/17 11:50',
-            'msg':"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',"
-          },
-          {
-            'id':2,
-            'img':'user.jpg',
-            'group_name':'BSE18-11',
-            'name':'Ruth',
-            'time':'5/10/17 11:54',
-            'msg':"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',"
-          },
-          {
-            'id':3,
-            'img':'user2.jpg',
-            'group_name':'BSE18-12',
-            'name':'David',
-            'time':'5/10/17 11:59',
-            'msg':"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',"
-          },
-          {
-            'id':4,
-            'img':'user3.jpg',
-            'group_name':'BSE18-11',
-            'name':'Mark',
-            'time':'5/10/17 12:00'
-          },
-          {
-            'id':5,
-            'img':'user4.jpg',
-            'group_name':'BSE18-12',
-            'name':'Ceaser',
-            'time':'5/10/17 12:10',
-            'msg':"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',"
-          },
-          {
-            'id':6,
-            'img':'user5.jpg',
-            'group_name':'BSE18-11',
-            'name':'Jason',
-            'time':'5/10/17 12:14',
-            'msg':"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',"
-          },
-        ]
-      },
-      {
-        'id':2,
-        'img':'user.jpg',
-        'group_name':'BSE18-2',
-        'name':'David',
-        'title':'Where To Find The Best Online Tutorials',
-        'time':'5/10/17 11:45',
-        'likes':0,
-        'dislikes':101,
-        'msg':"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-        'comments_count':6,
-        'comments':[
-          {
-            'id':1,
-            'img':'user2.jpg',
-            'group_name':'BSE18-12',
-            'name':'Tom',
-            'time':'5/10/17 11:50',
-            'msg':"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',"
-          },
-          {
-            'id':2,
-            'img':'user.jpg',
-            'group_name':'BSE18-11',
-            'name':'Ruth',
-            'time':'5/10/17 11:54',
-            'msg':"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',"
-          },
-        ]
-      },
-      {
-        'id':3,
-        'img':'user5.jpg',
-        'group_name':'BSE18-2',
-        'name':'Ruth',
-        'title':'Ipsum Is Simply Dummy Text Of The Printing An',
-        'time':'5/10/17 11:45',
-        'likes':200,
-        'dislikes':1,
-        'msg':"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-        'comments_count':6,
-        'comments':[
-          {
-            'id':1,
-            'img':'user2.jpg',
-            'group_name':'BSE18-12',
-            'name':'Tom',
-            'time':'5/10/17 11:50',
-            'msg':"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',"
-          },
-          {
-            'id':2,
-            'img':'user.jpg',
-            'group_name':'BSE18-11',
-            'name':'Ruth',
-            'time':'5/10/17 11:54',
-            'msg':"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',"
-          },
-          {
-            'id':3,
-            'img':'user2.jpg',
-            'group_name':'BSE18-12',
-            'name':'David',
-            'time':'5/10/17 11:59',
-            'msg':"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',"
-          },
-          {
-            'id':4,
-            'img':'user3.jpg',
-            'group_name':'BSE18-11',
-            'name':'Mark',
-            'time':'5/10/17 12:00'
-          },
-          {
-            'id':5,
-            'img':'user4.jpg',
-            'group_name':'BSE18-12',
-            'name':'Ceaser',
-            'time':'5/10/17 12:10',
-            'msg':"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',"
-          },
-          {
-            'id':6,
-            'img':'user5.jpg',
-            'group_name':'BSE18-11',
-            'name':'Jason',
-            'time':'5/10/17 12:14',
-            'msg':"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',"
-          },
-        ]
-      },
-      {
-        'id':4,
-        'img':'user4.jpg',
-        'group_name':'BSE18-2',
-        'name':'Juls',
-        'title':"Lorem Ipsum has been the industry's",
-        'time':'5/10/17 11:45',
-        'likes':20,
-        'dislikes':31,
-        'msg':"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-        'comments_count':6,
-        'comments':[
-          {
-            'id':1,
-            'img':'user2.jpg',
-            'group_name':'BSE18-12',
-            'name':'Tom',
-            'time':'5/10/17 11:50',
-            'msg':"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',"
-          },
-          {
-            'id':2,
-            'img':'user.jpg',
-            'group_name':'BSE18-11',
-            'name':'Ruth',
-            'time':'5/10/17 11:54',
-            'msg':"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',"
-          },
-          {
-            'id':3,
-            'img':'user2.jpg',
-            'group_name':'BSE18-12',
-            'name':'David',
-            'time':'5/10/17 11:59',
-            'msg':"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',"
-          },
-          {
-            'id':4,
-            'img':'user3.jpg',
-            'group_name':'BSE18-11',
-            'name':'Mark',
-            'time':'5/10/17 12:00'
-          },
-          {
-            'id':5,
-            'img':'user4.jpg',
-            'group_name':'BSE18-12',
-            'name':'Ceaser',
-            'time':'5/10/17 12:10',
-            'msg':"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',"
-          },
-          {
-            'id':6,
-            'img':'user5.jpg',
-            'group_name':'BSE18-11',
-            'name':'Jason',
-            'time':'5/10/17 12:14',
-            'msg':"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',"
-          },
-        ]
-      },
-      {
-        'id':5,
-        'img':'user2.jpg',
-        'group_name':'BSE18-2',
-        'name':'Juls',
-        'title':'Lorem Ipsum is simply dummy text',
-        'time':'5/10/17 11:45',
-        'likes':2,
-        'dislikes':'',
-        'msg':"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-        'comments_count':6,
-        'comments':[
-          {
-            'id':1,
-            'img':'user2.jpg',
-            'group_name':'BSE18-12',
-            'name':'Tom',
-            'time':'5/10/17 11:50',
-            'msg':"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',"
-          },
-          {
-            'id':2,
-            'img':'user.jpg',
-            'group_name':'BSE18-11',
-            'name':'Ruth',
-            'time':'5/10/17 11:54',
-            'msg':"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',"
-          },
-          {
-            'id':3,
-            'img':'user2.jpg',
-            'group_name':'BSE18-12',
-            'name':'David',
-            'time':'5/10/17 11:59',
-            'msg':"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',"
-          },
-          {
-            'id':4,
-            'img':'user3.jpg',
-            'group_name':'BSE18-11',
-            'name':'Mark',
-            'time':'5/10/17 12:00'
-          },
-          {
-            'id':5,
-            'img':'user4.jpg',
-            'group_name':'BSE18-12',
-            'name':'Ceaser',
-            'time':'5/10/17 12:10',
-            'msg':"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',"
-          },
-          {
-            'id':6,
-            'img':'user5.jpg',
-            'group_name':'BSE18-11',
-            'name':'Jason',
-            'time':'5/10/17 12:14',
-            'msg':"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',"
-          },
-        ]
-      },
-    ]
-    this.archivedPosts = this.forums;
+    this._fetchPost();
   }
 
   ngOnInit() {
-    $(document).ready(function(){
-      setTimeout(() =>{
-        $(".animated-forum-element").show();
-      },2000);
-    });
 
     this.commentForm = new FormGroup({
       comment: new FormControl("",Validators.compose([
@@ -323,22 +50,46 @@ export class ForumsPageComponent implements OnInit {
       ]))
     });
 
+    this._fetchArchivedPosts();
+
   }
+
   /* Read archived posts */
   _readArchivedPost(id){
+    console.log("")
     $(".animated-forum-element").hide();
     let Id = parseInt(id) + 1;
-    this.showArchive = true;
-    this.archivedPosts.filter((item) =>{
-      if( item.id == Id ){
-        this.archive = item
-        setTimeout(() =>{
-          $(".animated-forum-element").show();
-        },10);        
-        this.api._updateBreadcrumb(2,item.title,'');
-      }
-    });
+    
+    $.ajax({
+      type: "GET",
+      url: this.api.getArchivedPostsDetails(id),
+      error: ((err) =>{
+        this.api.getRequestError();
+      }),
+      success: ((data) =>{
+        console.log("Here is the data sent from the api stream::",data)
+        if(data['data']){
+          this.archive = data['data'];
+          this.archive.filter((post) =>{
+            post.message = atob(post['message'])
+          })
+          this.archive = this.archive[0];
+          this.showArchive = true;
+          if(data['comments'] && data['comments'][0] != 'none' ){
+            console.log("Comments are here::",data['comments'])
+            this.archivedComments = data['comments'];
+          }else{
+            this.commentsCount = []
+            console.log("There are no comments");
+          }
+        }else{
+          this.api.getRequestError();
+        }
+      })
+    })
+
   }
+
   /* Read all the content for a particular post */
   _readMore(id){
     /* Reset them all to the default */
@@ -347,13 +98,39 @@ export class ForumsPageComponent implements OnInit {
     if( this.currentReadMoreBtn == id){
       this.currentReadMoreBtn = -1;
     }else{
-      $("."+id+"").addClass("readMore");
+      console.log("Here is the id supplied::",id)
+      $("._"+id+"").addClass("readMore");
       $(".forum-read-more-btn."+id+"").html("show less");
       this.currentReadMoreBtn = id;
     }
   }
+
+  /* Fetch comments */
+  _fetchComment(id){
+    this.comments = [];
+    $.ajax({
+      type: "GET",
+      url: this.api.getFetchCommentsEndpoint(id),
+      error: ((err) =>{
+        this.openPopup(this.api.getRequestError());
+      }),
+      success:((data) =>{
+        console.log(data)
+        if(data['data']){
+          this.comments = data['data'];
+        }else{
+          this.openPopup("No comments yet.But you can be the first");
+          this.comments = []
+        }
+      })
+    });    
+  }
+
   /* Display the comments for a particular post */
   _readComments(id){
+
+    this._fetchComment(id);
+
     this.currentSize = 0;
     //$(".comment").attr('val',"");
     this.commentForm.setValue({comment:""});
@@ -362,52 +139,167 @@ export class ForumsPageComponent implements OnInit {
     if( this.currentComment == id){
       this.currentComment = -1;
     }else{
-      $("."+id+"").show(300);
-      $(".forum-new-comment-wrapper."+id+"").show(300); //activate the option for generating a comment.
+      $("."+id+"").show(0);
+      $(".forum-new-comment-wrapper."+id+"").show(0); //activate the option for generating a comment.
       this.currentComment = id;
     }
   }
+
   /* Register a like on a post */
-  _like(id){
-    console.log("I like this post");
-    let ID = parseInt(id) + 1;
-    this.forums.filter((item) =>{
-      if(item.id == ID){
-        item.likes = parseInt(item.likes) + 1;
-      }
+  _like(index,likes,forumPostId){
+    $.ajax({
+      type: "GET",
+      url: this.api.getForumLikesCount(forumPostId,likes),
+      error: ((err) =>{
+        this.openPopup(this.api.getRequestError());
+      }),
+      success: ((data) =>{
+        if (data['data']){
+          this.likesCount[index] = data['data']
+        }else{
+          this.openPopup(data['error']);
+        }
+      })
     });
   }
+
   /* Register a Dislike on a post */
-  _dislike(id){
+  _dislike(index,dislikes,forumPostId){
     console.log("I dislikes this post");
-    let ID = parseInt(id) + 1;
-    this.forums.filter((item) =>{
-      if(item.id == ID){
-        item.dislikes = parseInt(item.dislikes) + 1;
-      }
+    $.ajax({
+      type: "GET",
+      url: this.api.getForumDislikesCount(forumPostId,dislikes),
+      error: ((err) =>{
+        this.openPopup(this.api.getRequestError());
+      }),
+      success: ((data) =>{
+        if (data['data']){
+          this.dislikesCount[index] = data['data']
+        }else{
+          this.openPopup(data['error']);
+        }
+      })
     });
   }
+
   /* Track the number of characters the user has typed */
   _commentSize(comment){
     this.currentSize = comment.length;
   }
+
   /* Submit the user's comment */
-  _submitComment(data,id){
-    let Id = parseInt(id) + 1;
-    this.forums.filter((item) =>{
-      if(item.id == Id){
-        let size = item.comments.length;
-        item.comments.push({
-          'id': size + 1,
-          'img':this.user_image,
-          'group_name':'BSE18-12',
-          'name':this.user_name,
-          'time':this.today,
-          'msg':data['comment']
-        });
-        item.comments_count = item.comments_count + 1;
-        this.commentForm.setValue({comment:""});  //Clear the pallete.
-      }
+  _submitComment(formData,id,commentsCount,index){
+    $.ajax({
+      type: "POST",
+      data: formData,
+      url: this.api.getPostCommentsEndpoint(id,commentsCount),
+      error: ((err) =>{
+        this.openPopup(this.api.getRequestError());
+      }),
+      success: ((data) =>{
+        if (data['data'] === 'success'){
+          this.openPopup("You've successfully comment on this post");
+          this._fetchComment(id);
+          this._updateCommentsCount(index,id)
+          this.commentForm.patchValue({
+            comment: ''
+          })
+        }else{
+          this.openPopup(data['error']);
+        }
+      })
     });
   }
+
+  /* Update the comments for this post */
+  _updateCommentsCount(index,forumPostId){
+    $.ajax({
+      type: "GET",
+      url: this.api.getForumCommentsCount(forumPostId),
+      error: ((err) =>{
+        this.openPopup(this.api.getRequestError());
+      }),
+      success: ((data) =>{
+        if (data['data']){
+          if(data['data'] != 'empty'){
+            this.commentsCount[index] = data['data'][0]['commentsCount']
+          }else{
+            this.openPopup(data['error']);
+          }
+        }else{
+          this.openPopup(data['error']);
+        }
+      })
+    });
+  }  
+
+  /* Fetch the most recent posts */
+  _fetchPost(){
+    $.ajax({
+      type: "GET",
+      url: this.api.getForumPostsEndpoint(),
+      error: ((err) =>{
+        this.openPopup(this.api.getRequestError());
+      }),
+      success: ((data) =>{
+        if(data['data'] && data['textFiles']){
+          this.forums = data['data']
+          var textFiles = data['textFiles'].reverse();
+          this.forums.reverse();
+          this._empty();
+          var count = 0;
+          this.forums.filter((post) =>{    
+            this.commentsCount.push(post.commentsCount)     
+            this.likesCount.push(post.likes)     
+            this.dislikesCount.push(post.dislikes)     
+            post.message = atob(textFiles[count]['fileText'])
+            count++;
+          });
+        }else{
+          this.forums = []
+          this.openPopup(data['error'])
+        }
+      })
+    })
+  }
+
+  /* Fetch archived posts */
+  _fetchArchivedPosts(){
+    $.ajax({
+      type: "GET",
+      url: this.api.getArchivedPosts(),
+      error: ((err) =>{
+        this.openPopup(this.api.getRequestError());
+      }),
+      success: ((data) =>{
+        if(data['data'] != 'empty'){
+          this.archivedPosts = data['data'].reverse();
+        }else{
+          this.archivedPosts = []
+        }
+      })
+    })
+  }
+
+  /* Empty the count variables */
+  _empty(){
+    this.commentsCount  = []
+    this.likesCount     = []
+    this.dislikesCount  = []
+  }
+
+  /* Pop over */
+  openPopup(msg) {
+    this.popup.open(Ng2MessagePopupComponent, {
+      message: msg,
+    })
+  } 
+
+  /* Handle variables that change */
+  ngOnChanges(){
+    if(this.refreshPosts != 0){
+      this._fetchPost();
+    }
+  }
+
 }

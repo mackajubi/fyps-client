@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import * as $ from 'jquery';
 import { FormGroup, FormControl } from '@angular/forms';
-import { ApiService } from '../../api.service';
+import { ApiService } from '../../service/api.service';
 
 @Component({
   selector: 'fiyps-progress-scale',

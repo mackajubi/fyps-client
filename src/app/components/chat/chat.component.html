@@ -1,4 +1,5 @@
-<div class="chat-wrapper" *ngIf="userType == 'student' || userType == 'supervisor'">
+<ng2-popup class="animated fadeInDown _delay4ms" #popup></ng2-popup> 
+<div class="chat-wrapper" *ngIf="userType == '1' || userType == '2'">
   <div class="chat-header" (click)="_slideToggle('chat-container','chat-header-icon')">
     <div class="chat-header-icon">
       <i class="fas fa-caret-down icon"></i>
@@ -9,34 +10,39 @@
   </div>
   <div class="chat-container">
     <fiyps-refresh [visibility]="visibility"></fiyps-refresh>
-    <div class="chat-content _widget-scrollbar">
-      <div class="chat" *ngFor="let chat of chats" [ngClass]="{'pull-right': chat.ownerName == username}">
-        <div class="chat-msg-header" [ngClass]="{'current-user': chat.ownerName == username}">
-          <div class="chat-msg-owner-img-wrapper col-xs-1" [ngClass]="{'pull-right': chat.ownerName == username}">
+    <div class="chat-content _widget-scrollbar" *ngIf="totalChats">
+      <div class="chat" *ngFor="let chat of chats" [ngClass]="{'pull-right': chat.msgOwner == username}">
+        <div class="chat-msg-header" [ngClass]="{'current-user': chat.msgOwner == username}">
+          <!--
+          <div class="chat-msg-owner-img-wrapper col-xs-1" [ngClass]="{'pull-right': chat.msgOwner == username}">
             <img src="/assets/img/users/{{ chat.img }}" class="img-thumbnail" />
           </div>
-          <div class="chat-msg-owner-name-time col-md-3 col-xs-3" [ngClass]="{'pull-right': chat.ownerName == username}">
-            <div class="chat-msg-owner-name" [ngClass]="{'align-right': chat.ownerName == username}">
-              {{ chat.ownerName }}
+        -->
+          <div class="chat-msg-owner-name-time col-md-3 col-xs-3" [ngClass]="{'pull-right': chat.msgOwner == username}">
+            <div class="chat-msg-owner-name" [ngClass]="{'align-right': chat.msgOwner == username}">
+              {{ chat.msgOwner }}
             </div>
-            <div class="chat-msg-time col-md-2" [ngClass]="{'pull-right': chat.ownerName == username}">
+            <div class="chat-msg-time col-md-2" [ngClass]="{'pull-right': chat.msgOwner == username}">
               {{ chat.time }}
             </div>
           </div> 
         </div>
         <div class="chat-message">
-          <p> {{ chat.msgBody }} </p>
+          <pre> {{ chat.msgBody }} </pre>
         </div>       
       </div>
     </div>
+    <div class="nochats-default-container animated fadeIn _delay4ms" *ngIf="!totalChats">
+      <img src="./assets/img/defaults/noChatsTemp.fw.png" class="img-fluid" />
+    </div>
     <div class="new-chat-textarea">
-      <form [formGroup]="newChatForm" class="form-horizontal" (ngSubmit)="_submitChat(newChatForm.value)" (keydown)="enterBtnSubmit($event)">
+      <form [formGroup]="newChatForm" class="form-horizontal" (ngSubmit)="_submitChat(newChatForm.value)">
         <div class="form-group new-chat-form-group">
           <span class="pull-right"> 
             <span *ngIf="currentSize != maxLength; else warning"><strong>{{ currentSize }}</strong></span>
             <ng-template #warning><strong class="chat-warning">{{ currentSize }}</strong> </ng-template>/ {{ maxLength }}
           </span>
-          <textarea class="form-control chatMsg _scrollbar" maxlength="{{ maxLength }}" formControlName="chatMsg" (ngModelChange)="_chatMsgSize(character = $event)" name="chatMsg" rows="2"></textarea>
+          <textarea class="form-control chatMsg _scrollbar" maxlength="{{ maxLength }}" formControlName="chatMsg" (ngModelChange)="_chatMsgSize(character = $event)" name="chatMsg" [rows]="rows"></textarea>
         </div>
         <div class="chat-save-btn">
           <button class="btn btn-info" [disabled]="!newChatForm.valid">Save</button>

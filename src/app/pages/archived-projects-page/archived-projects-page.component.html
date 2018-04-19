@@ -1,3 +1,9 @@
+<div class="pop-up-container">
+  <ng2-popup class="animated fadeInDown _delay4ms" #popup></ng2-popup>
+</div>
+<div class="pdf-reader-component-contianer"  *ngIf="showFile">
+  <fiyps-pdf-reader [fullscreen]="'fullscreen-pdfViewerContainer'" (onClose)="onClose($event)" [groupName]="groupName" [deliverableTypeId]="deliverableTypeId" [studentGroupId]="studentGroupId" [params]="fileId"></fiyps-pdf-reader>
+</div>
 <div class="projects-wrapper">
   <div class="projects-inner-wrapper" *ngIf="homeBtn =='home'">
     <div class="projects-controls-wrapper animated fadeIn _delay5ms">
@@ -31,15 +37,15 @@
           </tr>
         </thead>
         <tbody>
-          <tr class="animated fadeInUp _delay{{ i + 3}}ms" (click)="_viewGroup(i)" *ngFor="let project of archivedProjects | archivedProjectsFilter:search | paginate: {id: 'archiveProjects', itemsPerPage: pageSize, currentPage: page }; let i = index;">
+          <tr class="animated fadeInUp _delay{{ i + 3}}ms" (click)="_viewGroup(project.groupId)" *ngFor="let project of archivedProjects | archivedProjectsFilter:search | paginate: {id: 'archiveProjects', itemsPerPage: pageSize, currentPage: page }; let i = index;">
             <td class="count">{{ i + 1 }}</td>
-            <td class="group-name">{{ project.group_name }}</td>
+            <td class="group-name">{{ project.name }}</td>
             <td class="group-members-td">
               <ul class="project-group-members">
                 <li *ngFor="let member of project.members; let i = index;">{{ member.name }}</li>
               </ul>
             </td>
-            <td class="project-title">{{ project.title }}</td>
+            <td class="project-title">{{ project.projectTitle }}</td>
             <td class="project-supervisor">{{ project.supervisor }}</td>
           </tr>
         </tbody>
@@ -51,29 +57,43 @@
   </div>
   <div class="projects-inner-wrapper" *ngIf="homeBtn =='details'">
     <div class="project-details">
-      <div class="col-sm-3">     
-        <div class="col-xs-12" *ngFor="let member of projectDetails.members; let i = index;">
-          <img src="/assets/img/users/{{ member.img }}" *ngIf="member.img; else default" class="animated fadeInLeft _delay0{{ i + 3 }}s _project-member-img"/> 
-          <ng-template #default><img src="/assets/img/users/no-image.jpg" class="_project-member-img animated fadeInLeft _delay0{{ i + 3 }}s "/></ng-template>
-          <span class="member-name animated fadeInRight _delay0{{ i * 3 }}s ">{{ member.name }}</span>          
+      <div class="col-sm-3">
+        <div class="group-members-heading-container">
+          <h2 class="header">Group Members</h2>
+        </div> 
+        <div class="col-xs-12" >
+          <table class="table table-striped">
+            <tbody>
+              <tr *ngFor="let member of projectDetails[0].groupMembers; let i = index;" class="animated fadeInUp _delay{{ i + 2 }}ms">
+                <td>{{ i + 1 }}</td>
+                <td>
+                  <span class="member-name ">{{ member.name }}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
       <div class="col-sm-5">
         <div class="col-xs-12">
           <h5 class="col-xs-3">Group Name:</h5>
-          <span class="col-xs-8 details-span animated fadeInDown _delay08s">{{ projectDetails.group_name }}</span>
+          <span class="col-xs-8 details-span animated fadeInDown _delay5ms">{{ projectDetails[0].groupName }}</span>
         </div>
         <div class="col-xs-12">
           <h5 class="col-xs-3">Project Title: </h5>
-          <span class="col-xs-8 details-span animated fadeInDown _delay07s">{{ projectDetails.title }}</span>
+          <span class="col-xs-8 details-span animated fadeInDown _delay4ms">{{ projectDetails[0].projectTitle }}</span>
         </div>
         <div class="col-xs-12">
           <h5 class="col-xs-3">Blog Url:</h5>
-          <span class="col-xs-8 details-span animated fadeInDown _delay06s"><a href="http://finalyrprojects.pythonanywhere.com/">finalyrprojects.pythonanywhere.com</a></span>
+          <span class="col-xs-8 details-span animated fadeInDown _delay2ms"><a [href]="projectDetails[0].blogUrl" target="_blank">{{ projectDetails[0].blogUrl }}</a></span>
         </div>
         <div class="col-xs-12 description">
           <h5 class="col-xs-3">Project Description:</h5>
-          <span class="col-xs-8 details-span animated fadeIn _delay04s">The mission is to provide first class teaching, research and services in Computing and Informatics Technology responsive to national and international needs. They offer high quality teaching services and promote research activities together with outreach in the broad field of computer science, data communications and software engineering, information systems and information technology.</span>
+          <span class="col-xs-8 details-span animated fadeIn _delay04s">
+            <pre>
+              {{ projectDetails[0].projectDescription }}
+            </pre>
+          </span>
         </div>
       </div>
       <div class="col-sm-4">
@@ -83,19 +103,19 @@
         </div>
         <div class="col-xs-12 group-name">
           <h5 class="col-xs-3">Name: </h5>
-          <span class="col-xs-8 details-span animated fadeInRight _delay03s">{{ projectDetails.supervisor }}</span>
+          <span class="col-xs-8 details-span animated fadeInRight _delay2ms">{{ projectDetails[0].supervisor }}</span>
         </div>
         <div class="col-xs-12 group-name">
           <h5 class="col-xs-3">Email:</h5>
-          <span class="col-xs-8 details-span animated fadeInRight _delay06s"><a href="mailto:amwotil@cis.mak.ac.ug">amwotil@cis.mak.ac.ug</a></span>
+          <span class="col-xs-8 details-span animated fadeInRight _delay3ms"><a href="mailto:amwotil@cis.mak.ac.ug">amwotil@cis.mak.ac.ug</a></span>
         </div>
         <div class="col-xs-12 group-name">
           <h5 class="col-xs-3">Contact:</h5>
-          <span class="col-xs-8 details-span animated fadeInRight _delay08s">0772 084 725</span>
+          <span class="col-xs-8 details-span animated fadeInRight _delay4ms">{{ projectDetails[0].supervisorContact }}</span>
         </div>
         <div class="col-xs-12 group-name">
           <h5 class="col-xs-3">Department:</h5>
-          <span class="col-xs-8 details-span animated fadeInRight _delay1s">{{ projectDetails.department }}</span>
+          <span class="col-xs-8 details-span animated fadeInRight _delay5ms">{{ projectDetails[0].department }}</span>
         </div>
       </div>
       <div class="project-files">
@@ -110,12 +130,12 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let file of projectDetails.files; let i = index;" (click)="_readDocument(file.file_path)">
-                <td class="count animated fadeIn _delay06s">{{ i + 1 }}</td>
-                <td class="file-name animated fadeIn _delay06s">{{ file.name }}</td>
-                <td class="file-data-published animated fadeIn _delay06s">{{ file.date_published }}</td>
-                <td class="file-document-path animated fadeIn _delay06s">{{ file.file_path }}</td>
-                <td class="file-mark animated fadeIn _delay06s">{{ file.marks }}</td>
+              <tr *ngFor="let file of projectDetails[0].deliverables; let i = index;" (click)="_readDocument(projectDetails[0].groupName,projectDetails[0].groupId,file.id,file.filePath)" class="animated fadeInUp _delay{{ i + 2 }}ms">
+                <td class="count">{{ i + 1 }}</td>
+                <td class="file-name">{{ file.name }}</td>
+                <td class="file-data-published">{{ file.dateSubmitted }}</td>
+                <td class="file-document-path">{{ file.filePath }}</td>
+                <td class="file-mark">{{ file.score }}</td>
               </tr>
             </tbody>
           </table>        

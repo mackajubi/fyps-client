@@ -29,3 +29,17 @@ Enable a user to be able to search chats contents...
 
 Add a calendar to trac which meetings were honoured or not.
         
+
+Coordinator statistics components:
+    Showing number of groups that have been marked / awarded scores
+    Groups with the highest marks... A and the poorest grade...
+    
+
+
+Development notes:
+    When using the pop up package...
+    ensure to install the overlay package as well...
+    after the ng2-pop up package...
+
+
+m.nsabagwa@cis.mak.ac.ug

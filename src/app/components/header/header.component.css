@@ -8,13 +8,13 @@
 }
 ._time > a{
     font-size: 18px;
-    background-color: #0cc10ccc;
+    background-color: transparent;
 }
 ._time > a:hover {
-    background: #0cc10ccc;
+    background: transparent;
 }
 ._date > a:hover {
-    background: #1d2127;
+    background: transparent;
 }
 @media only screen and (max-width: 1024px){
     .x-navigation.x-navigation-panel li.xn-icon-button {

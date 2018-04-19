@@ -1,0 +1,25 @@
+.resize-container{
+    padding: 0px;
+    position: absolute;
+    right: 12px;
+    margin-top: -37px;
+}
+.resize-container > button{
+    background: transparent;
+    border: 1px solid #98e398;
+}
+.resize-container > button:hover,
+.resize-container > button:active{
+    background: transparent;
+    border: 1px solid #98e398;
+}
+.defaults-container{
+    text-align: center;
+    padding: 20px;
+    padding-top: 121px;
+    height: 443px;
+    overflow: hidden;
+}
+.defaults-container  >img{
+    width: fit-content;
+}

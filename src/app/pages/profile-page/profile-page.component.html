@@ -1,13 +1,38 @@
+<div class="pop-up-container">
+  <ng2-popup class="animated fadeInDown _delay4ms" #popup></ng2-popup>
+</div>
 <div class="profile-wrapper animated fadeIn _delay7ms">
-  <div class="inner-wrapper" *ngIf="userType == 'student'">
+  <div class="col-sm-12 profile-img">
+    <div>
+      <!--<img src="./assets/img/users/{{ userImg }}" class="img-thumbnail animated fadeIn _delay4ms" />-->
+      <img src="data:image/gif;base64,{{ userImg }}" class="img-thumbnail animated fadeIn _delay4ms" />
+    </div>
+    <div class="browse-img">
+        <image-upload
+        [max]="imgMaxUpload"
+        [url]="url"
+        [headers]="{Authorization: token}"
+        [maxFileSize]="1048576"
+        [fileTooLargeMessage]="'Image too large!'"
+        [buttonCaption]="'Update image'"
+        [dropBoxMessage]="'Drop image here'"
+        [extensions]="['jpg','png','gif','jpeg']"
+        [class]="'customClass'"      
+        (removed)="onRemoved($event)"
+        (uploadFinished)="onUploadFinished($event)"
+        (uploadStateChanged)="onUploadStateChanged($event)">
+      </image-upload>       
+    </div>
+  </div>  
+  <div class="inner-wrapper" *ngIf="userType == '1'">
     <div class="col-sm-12 profile-course">
       <h4 class="col-sm-12">
         Course:
-        <span class="">Bachelor of Science in Software Engineering</span>
-        <span class="_sm-course">BSSE</span>        
+        <span class="">{{ course }}</span>
+        <span class="_sm-course">{{ course }}</span>        
       </h4>
     </div>
-    <form [formGroup]="studentForm" class="form-horizontal">
+    <form [formGroup]="studentForm" class="form-horizontal" (submit)="_submitGeneralStudentData(studentForm.value)">
       <div class="form-group project-title">
         <label for="title">Project Title
           <span> 
@@ -16,6 +41,15 @@
           </span>                            
         </label>
         <input type="text" class="form-control" maxlength="{{ maxTitleLength }}" formControlName="projectTitle" (ngModelChange)="_titleSize(title = $event)">
+      </div>
+      <div class="form-group project-title">
+        <label for="title">Project Blog
+          <span> 
+          <span *ngIf="blogUrlLength != maxBlogUrlLength; else blogWarning"><strong>{{ blogUrlLength }}</strong></span>
+          <ng-template #blogWarning><strong class="_warning">{{ blogUrlLength }}</strong> </ng-template>/ {{ maxBlogUrlLength }}
+          </span>                            
+        </label>
+        <input type="text" class="form-control" maxlength="{{ maxBlogUrlLength }}" formControlName="blogUrl" (ngModelChange)="_blogUrlSize(blog = $event)">
       </div>
       <div class="form-group project-description">
         <label for="message">Project Description 
@@ -26,131 +60,148 @@
         </label>
         <textarea class="form-control _scrollbar" maxlength="{{ maxDescLength }}" formControlName="projectDescription" (ngModelChange)="_descSize(desc = $event)" name="description" rows="5"></textarea>
       </div>
-      <div class="form-group profile-password">
-        <label for="message">Change Password </label>
-        <div class="old-password">
-          <input type="password" class="form-control old-pwd" placeholder="old" formControlName="oldPassword" minlength="{{ minPwdLength }}" maxlength="{{ maxPwdLength }}" (ngModelChange)="_oldPassword(oldPwd = $event)">
-        </div>
-        <input type="password" class="form-control  new-pwd" placeholder="new" formControlName="newPassword" minlength="{{ minPwdLength }}" maxlength="{{ maxPwdLength }}">
-        <input type="password" class="form-control confirm-pwd" placeholder="corfirm" formControlName="confirmPassword" minlength="{{ minPwdLength }}" maxlength="{{ maxPwdLength }}" (ngModelChange)="_confirmPwd(confirm = $event)">
-      </div>
-    </form>    
-    <form [formGroup]="groupForm" (ngSubmit)="_submitForm(groupForm.value)" class="form-horizontal">
-      <div class="col-lg-12 labels-group">
-        <div class="col-xs-3 ">
-          <span class="hash-label col-xs-2">#</span>
-          <span class="name-label col-xs-10">
-            Name
-          </span>
-        </div>
-        <div class="col-xs-3 reg-no-label">
-          Registration No:
-        </div>
-        <div class="col-xs-3 contact-label">
-          Contact
-        </div>
-        <div class="col-xs-3 email-label">
-          Email
-        </div>
-      </div>
-      <div formArrayName="names" class="col-xs-3 _withSize field-containers">
-        <div *ngFor="let nameControl of groupForm.controls.names.controls; let i=index;">
-          <label class="hash-field col-xs-2">{{ i + 1 }}</label>
-          <input type="text" name="name[{{nameId}}]" class="col-xs-10 name-field" [formControlName]="i">
-        </div>                                            
-      </div>        
-      <div formArrayName="regNos" class="col-xs-3 field-containers">
-        <div *ngFor="let regNoControl of groupForm.controls.regNos.controls; let i=index;">
-          <input type="text" name="regNo[{{regNoId}}]" class="reg-no-field" [formControlName]="i">
-        </div>                                            
-      </div>        
-      <div formArrayName="contacts" class="col-xs-3 field-containers">
-        <div *ngFor="let contactControl of groupForm.controls.contacts.controls; let i=index;">
-          <input type="text" name="contact[{{contactId}}]" class="contact-field" [formControlName]="i">
-        </div>                                            
-      </div>        
-      <div formArrayName="emails" class="col-xs-3 field-containers">
-        <div *ngFor="let emailControl of groupForm.controls.emails.controls; let i=index;">
-          <input type="text" name="email[{{emailId}}]" class="email-field" [formControlName]="i">
-        </div>                                            
-      </div>                         
-      <div class="form-group submit-btn-container">
+      <div class="form-group sup submit-btn-container">
         <div class="col-md-12">
-          <button class="btn btn-info btn-block pointer profile-submit" type="submit" [disabled]="!groupForm.valid">Update</button>
+          <button class="btn btn-info btn-block pointer profile-submit" type="submit">Save</button>
         </div>
-      </div>
-    </form>       
-  </div>
-  <div class="inner-wrapper" *ngIf="userType == 'supervisor'">
-    <div class="col-sm-12 profile-img">
-      <div>
-        <img src="./assets/img/users/{{ userImg }}" class="img-thumbnail animated fadeIn _delay4ms" />
-      </div>
-      <!--<img src=".data:image/gif;base64,{{ userImg }}" class="img-thumbnail animated fadeIn _delay4ms" />-->
-      <div class="browse-img">
-          <image-upload
-          [max]="imgMaxUpload"
-          [url]="url"
-          [headers]="{Authorization: token}"
-          [maxFileSize]="1048576"
-          [fileTooLargeMessage]="'Image too large!'"
-          [buttonCaption]="'Update image'"
-          [dropBoxMessage]="'Drop image here'"
-          [extensions]="['jpg','png','gif']"
-          [class]="'customClass'"      
-          (removed)="onRemoved($event)"
-          (uploadFinished)="onUploadFinished($event)"
-          (uploadStateChanged)="onUploadStateChanged($event)">
-        </image-upload>       
-      </div>
+      </div>          
+    </form> 
+    <div class="col-sm-12 change-pwd-container">
+      <button class="btn btn-primary" (click)="_showChangePwdContainer()">
+        {{ changePwdText }}
+      </button>
     </div>
+    <form *ngIf="changePwd" [formGroup]="passwordForm" class="form-horizontal" (ngSubmit)="_updatePwd(passwordForm.value)">
+      <div class="form-group sup profile-password">
+        <label for="oldPassword">Change Password </label>
+        <div class="old-password" *ngIf="!pwdValid">
+          <input type="password" class="form-control col-sm-6 old-pwd animate fadeInRight _delay3ms  incorrect-pwd" placeholder="old" formControlName="oldPassword" minlength="{{ minPwdLength }}" maxlength="{{ maxPwdLength }}" (ngModelChange)="_oldPassword(oldPwd = $event)">
+          <button class="btn btn-primay col-sm-6 validate-btn" (click)="_validatePwd()" type="clear">Validate</button>
+        </div>
+      </div>    
+      <div *ngIf="pwdValid" class="form-group contact _form-group">
+        <label class="col-sm-2" for="new">New</label>
+        <input type="password" class="form-control col-sm-6 pwd animate fadeInUp _delay3ms" placeholder="new" formControlName="newPassword" minlength="{{ minPwdLength }}" maxlength="{{ maxPwdLength }}">
+      </div>
+      <div *ngIf="pwdValid" class="form-group contact _form-group">
+        <label class="col-sm-2" for="new">Confirm</label>
+        <input type="password" class="form-control col-sm-6 pwd animate fadeInUp _delay3ms" placeholder="confirm" formControlName="confirmPassword" minlength="{{ minPwdLength }}" maxlength="{{ maxPwdLength }}">
+      </div>
+      <div class="form-group sup submit-btn-container" *ngIf="pwdValid">
+          <div class="col-md-12">
+            <button class="btn btn-info btn-block pointer profile-submit" [disabled]="!passwordForm.valid" type="submit">change password</button>
+          </div>
+        </div>            
+    </form>      
+    <form id="groupDetailsForm">
+      <table class="table table-striped student-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Registration No:</th>
+            <th>Contact</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let member of groupMembers; let i = index" class="animated fadeInUp _delay{{ i + 1 }}ms">
+            <td>{{ i + 1 }}</td>
+            <td><input type="text" name="name" class="form-control" id="_name{{ member.id }}" required [value]="member.name" /></td>
+            <td><input type="text" name="regNo" class="form-control" id="_regNo{{ member.id }}" required [value]="member.regNo" /></td>
+            <td><input type="text" name="phoneNo" class="form-control" id="_phoneNo{{ member.id }}" required [value]="member.phoneNo" /></td>
+            <td><input type="email" name="email" class="form-control" id="_email{{ member.id }}" required [value]="member.email" /></td>
+            <td class="td-container">
+              <button class="btn btn-primary update-group-sumbit-btn" (click)="_submitGroupUpdates($event,member.id)">Save</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>     
+    </form>
+  </div>
+  <div class="inner-wrapper" *ngIf="userType == '2' || userType == '3'">
     <form [formGroup]="supervisorForm" class="form-horizontal" (ngSubmit)="_updateSupervisor(supervisorForm.value)">
       <div class="form-group name _form-group">
         <label class="col-sm-2" for="name">Name</label>
-        <input type="text" class="form-control col-sm-6 animated fadeInDown _delay7ms" maxlength="{{ maxNameLength }}" formControlName="name" (ngModelChange)="_nameSize(name = $event)">
+        <input type="text" class="form-control col-sm-6 animated fadeInRight _delay2ms" maxlength="{{ maxNameLength }}" formControlName="name" (ngModelChange)="_nameSize(name = $event)">
         <span> 
           <span *ngIf="nameSize != maxNameLength; else nameWarning"><strong>{{ nameSize }}</strong></span>
           <ng-template #nameWarning><strong class="_warning">{{ nameSize }}</strong> </ng-template>/ {{ maxNameLength }}
         </span>  
       </div>
-      <div class="form-group course _form-group">
-        <label class="col-sm-2" for="course">Course</label>
-        <input type="text" class="form-control col-sm-6 animated fadeInDown _delay7ms" maxlength="{{ maxCourseLength }}" formControlName="course" (ngModelChange)="_courseSize(course = $event)">
+      <div class="form-group name _form-group">
+        <label class="col-sm-2" for="username">username</label>
+        <input type="text" class="form-control col-sm-6 animated fadeInRight _delay2ms" maxlength="{{ maxUsernameLength }}" formControlName="username" (ngModelChange)="_username(name = $event)">
         <span> 
-          <span *ngIf="courseSize != maxCourseLength; else courseWarning"><strong>{{ courseSize }}</strong></span>
-          <ng-template #courseWarning><strong class="_warning">{{ courseSize }}</strong> </ng-template>/ {{ maxCourseLength }}
+          <span *ngIf="usernameSize != maxUsernameLength; else usernameWarning"><strong>{{ usernameSize }}</strong></span>
+          <ng-template #usernameWarning><strong class="_warning">{{ usernameSize }}</strong> </ng-template>/ {{ maxUsernameLength }}
         </span>  
       </div>
       <div class="form-group email _form-group">
         <label class="col-sm-2" for="email">email</label>
-        <input type="email" class="form-control col-sm-6 animated fadeInDown _delay5ms" maxlength="{{ maxEmailLength }}" formControlName="email" (ngModelChange)="_emailSize(email = $event)">
+        <input type="email" class="form-control col-sm-6 animated fadeInRight _delay3ms" maxlength="{{ maxEmailLength }}" formControlName="email" (ngModelChange)="_emailSize(email = $event)">
         <span> 
           <span *ngIf="emailSize != maxEmailLength; else emailWarning"><strong>{{ emailSize }}</strong></span>
           <ng-template #emailWarning><strong class="_warning">{{ emailSize }}</strong> </ng-template>/ {{ maxEmailLength }}
         </span>                            
       </div>
+      <div class="form-group course _form-group">
+        <label class="col-sm-2" for="course">Course</label>
+        <input type="text" class="form-control col-sm-6 animated fadeInRight _delay4ms" maxlength="{{ maxCourseLength }}" formControlName="course" (ngModelChange)="_courseSize(course = $event)">
+        <span> 
+          <span *ngIf="courseSize != maxCourseLength; else courseWarning"><strong>{{ courseSize }}</strong></span>
+          <ng-template #courseWarning><strong class="_warning">{{ courseSize }}</strong> </ng-template>/ {{ maxCourseLength }}
+        </span>  
+      </div>
+      <div class="form-group course _form-group">
+        <label class="col-sm-2" for="course">Department</label>
+        <input type="text" class="form-control col-sm-6 animated fadeInRight _delay5ms" maxlength="{{ maxDeparmentLength }}" formControlName="department" (ngModelChange)="_departmentSize(dept = $event)">
+        <span> 
+          <span *ngIf="departmentSize != maxDeparmentLength; else departmentWarning"><strong>{{ courseSize }}</strong></span>
+          <ng-template #departmentWarning><strong class="_warning">{{ departmentSize }}</strong> </ng-template>/ {{ maxDeparmentLength }}
+        </span>  
+      </div>
       <div class="form-group contact _form-group">
         <label class="col-sm-2" for="contact">phone number</label>
-        <input type="text" class="form-control col-sm-6 animated fadeInDown _delay3ms" maxlength="{{ maxContactLength }}" formControlName="contact" (ngModelChange)="_contactSize(contact = $event)">
+        <input type="text" class="form-control col-sm-6 animated fadeInRight _delay6ms" maxlength="{{ maxContactLength }}" formControlName="contact" (ngModelChange)="_contactSize(contact = $event)">
         <span> 
           <span *ngIf="contactSize != maxContactLength; else contactWarning"><strong>{{ contactSize }}</strong></span>
           <ng-template #contactWarning><strong class="_warning">{{ contactSize }}</strong> </ng-template>/ {{ maxContactLength }}
         </span>                            
-      </div>
-      <div class="form-group sup profile-password">
-        <label for="message">Change Password </label>
-        <div class="old-password">
-          <input type="password" class="form-control old-pwd incorrect-pwd" placeholder="old" formControlName="oldPassword" minlength="{{ minPwdLength }}" maxlength="{{ maxPwdLength }}" (ngModelChange)="_oldPassword(oldPwd = $event)">
-        </div>
-        <input type="password" class="form-control new-pwd animate fadeInDown _delay3ms" placeholder="new" formControlName="newPassword" minlength="{{ minPwdLength }}" maxlength="{{ maxPwdLength }}">
-        <input type="password" class="form-control confirm-pwd animate fadeInDown _delay3ms" placeholder="corfirm" formControlName="confirmPassword" minlength="{{ minPwdLength }}" maxlength="{{ maxPwdLength }}" (ngModelChange)="_confirmPwd(confirm = $event)">
       </div>
       <div class="form-group sup submit-btn-container">
         <div class="col-md-12">
           <button class="btn btn-info btn-block pointer profile-submit" type="submit" [disabled]="!supervisorForm.valid">Update</button>
         </div>
       </div>      
-    </form>    
+    </form>   
+    <div class="col-sm-12 change-pwd-container">
+      <button class="btn btn-primary" (click)="_showChangePwdContainer()">
+        {{ changePwdText }}
+      </button>
+    </div>
+    <form *ngIf="changePwd" [formGroup]="passwordForm" class="form-horizontal" (ngSubmit)="_updatePwd(passwordForm.value)">
+      <div class="form-group sup profile-password">
+        <label for="oldPassword">Change Password </label>
+        <div class="old-password" *ngIf="!pwdValid">
+          <input type="password" class="form-control col-sm-6 old-pwd animate fadeInRight _delay3ms  incorrect-pwd" placeholder="old" formControlName="oldPassword" minlength="{{ minPwdLength }}" maxlength="{{ maxPwdLength }}" (ngModelChange)="_oldPassword(oldPwd = $event)">
+          <button class="btn btn-primay col-sm-6 validate-btn" (click)="_validatePwd()" type="clear">Validate</button>
+        </div>
+      </div>    
+      <div *ngIf="pwdValid" class="form-group contact _form-group">
+        <label class="col-sm-2" for="new">New</label>
+        <input type="password" class="form-control col-sm-6 pwd animate fadeInUp _delay3ms" placeholder="new" formControlName="newPassword" minlength="{{ minPwdLength }}" maxlength="{{ maxPwdLength }}">
+      </div>
+      <div *ngIf="pwdValid" class="form-group contact _form-group">
+        <label class="col-sm-2" for="new">Confirm</label>
+        <input type="password" class="form-control col-sm-6 pwd animate fadeInUp _delay3ms" placeholder="confirm" formControlName="confirmPassword" minlength="{{ minPwdLength }}" maxlength="{{ maxPwdLength }}">
+      </div>
+      <div class="form-group sup submit-btn-container" *ngIf="pwdValid">
+          <div class="col-md-12">
+            <button class="btn btn-info btn-block pointer profile-submit" [disabled]="!passwordForm.valid" type="submit">change password</button>
+          </div>
+        </div>            
+    </form>  
   </div>
   <fiyps-footer class="_min-footer"></fiyps-footer> 
 </div>

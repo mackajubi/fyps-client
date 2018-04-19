@@ -1,0 +1,18 @@
+.groupnames-defaults-container{
+    height: 85%;
+    padding-top: 29px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.78);
+}
+._nameSearch{
+    width: 96%;
+    margin: 6px;
+}
+.groupname{
+    cursor: pointer;
+}
+.hightlight,
+.groupname:hover{
+    font-weight: 800;
+    color: black;
+}

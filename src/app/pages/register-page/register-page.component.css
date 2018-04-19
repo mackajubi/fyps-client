@@ -7,6 +7,7 @@
 .register-container .register-box {
     padding-top: 26px;
     padding-bottom: 57px;
+        display: flow-root;
 }
 .register-logo{
     cursor: pointer;
@@ -24,8 +25,22 @@
     font-weight: 600;
     font-size: 1.3rem;
 }
+.register-body{
+    background-color: white;
+    box-shadow: 0px 1px 3px -1px black;
+    display: flow-root;
+}
+._labelsGroup{
+    background: rgba(12, 193, 12, 0.42);
+    color: #23252a;
+    vertical-align: inherit;
+    text-transform: capitalize;
+    font-size: 12px;
+    padding: 8px;
+    font-weight: bold;
+}
 .btn-info {
-    background-color: #0cc10c6b !important;;
+    background-color: rgba(12, 193, 12, 0.42) !important;;
     border-color: #0cc10ccc !important;;
     color: black;
     font-size: 13px;
@@ -35,6 +50,9 @@
     border-color: #0cc10ccc !important;;
 
 }
+.login-logo > div {
+    padding-left:23px;
+}
 .home-link{
     float: left;
     color: #198c19;
@@ -42,6 +60,13 @@
     cursor: pointer;
     transition: all .9s ease-in-out;
     font-size: 13px;
+    background-color: transparent;
+    border-color: transparent;
+    border: 2px;
+    border-bottom: 2px solid rgba(255, 0, 0, 0.35);
+}
+.home-link:hover{
+    border-bottom: 2px solid red;
 }
 .register-logo > div{
     width: fit-content;
@@ -66,10 +91,6 @@
     text-transform: capitalize;
     margin-left: 11px;
 }
-table{
-    background-color: white;
-    box-shadow: 0px 1px 3px -1px black;
-}
 ._course-select-container{
     margin: 0px;
     text-align: center;
@@ -77,13 +98,44 @@ table{
     margin-top: 10px;
     width:  100%;
 }
+.step-control-btns{
+    padding: 0px;
+    text-align: center;
+    margin-bottom: 4px;
+}
+.step-control-btns > button{
+
+}
+.disable-step{
+    background-color: rgba(0, 0, 0, 0.27) !important;
+    border-color: rgba(0, 0, 0, 0) !important;
+}
+.activate-step{
+    background-color: #3ebb2f !important;
+    border-color: #3ebb2f !important;
+}
 .form-horizontal .form-group {
-    width: 100% !important;
+    /*width: 100% !important;*/
+    vertical-align: bottom;
 }
 .form-control {
     background: #f9f9f9 !important;
     border: 1px solid #c3c3c3 !important;;
     font-size: inherit !important;
+}
+.form-group {
+    margin-bottom: 6px;
+    width: 25%;
+    display: inline-block;
+}
+.form-group > div {
+    padding: 0px;
+    margin-top: 6px;
+}
+.names-form-group,
+._Input,
+._withDelBtn{
+    padding: 0px;
 }
 .form-group > div{
     padding: 0px;
@@ -105,7 +157,87 @@ table{
 }
 .register-box > .row{
     transition: all .6s ease-in-out;
+    margin-top: 20px;
 }
+._labels {
+    text-align: center;
+}
+label > span {
+    margin-left: 0px;
+}
+.hash-field{
+    margin-left: -18px;
+}
+.name-field{
+    width: 83%;
+    margin-bottom: 6px;
+}
+.regNo-field{
+    width: 99%;
+}
+.phoneNo-field{
+    width: 99%;
+}
+._withDelBtn{
+    width: 23%;
+}
+.email-field{
+    width: 83%;
+    margin-bottom: 6px;
+}
+.control-btn-form-group{
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 100%;
+}
+.submit{
+    margin-top: 6px;
+}
+.btn {
+    -webkit-transition: all 300ms ease-in-out;
+    -moz-transition: all 300ms ease-in-out;
+    -ms-transition: all 300ms ease-in-out;
+    -o-transition: all 300ms ease-in-out;
+    transition: all 300ms ease-in-out;
+}
+.btn-success {
+    background-color: #9ae3a4 !important;
+    border-color: #9ae3a4 !important;
+}
+.btn-success:hover, 
+.btn-success:focus, 
+.btn-success:active, 
+.btn-success.active, .open > 
+.dropdown-toggle.btn-success {
+    background-color: #3ebb2f !important; /* #99e599;*/
+    border-color: #0cc10c12 !important;
+}
+.add{
+    width: 36px;
+    height: 36px;
+    padding: 0px;
+    border-radius: 50%;
+    box-shadow: 0px 2px 2px 1px #2f2f2fa8;
+}
+._delDiv{
+    padding-left: 7px;
+}
+._removeBtn{
+
+}
+
+.wizard .anchor li a._first:before,
+.wizard .anchor li a._second:before {
+    background: #3ebb2f;
+}
+
+.wizard .anchor li a._first:after,
+.wizard .anchor li a._second:after {
+    border: 3px solid #3ebb2f;
+    color: #DDD;
+}
+
+
 @media only screen and (min-width: 1230px){
     .register-box > .row{
         padding: 0px 238px;
@@ -113,7 +245,7 @@ table{
 }
 @media only screen and (min-width: 1061px){
     .register-box > .row{
-        padding: 0px 292px;
+        padding: 0px 208px;
     }
 }
 @media only screen and (max-width: 1060px){

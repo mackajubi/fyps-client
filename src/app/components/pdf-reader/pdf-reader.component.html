@@ -1,0 +1,41 @@
+<div class="col-xs-12 pdf-reader-container">
+  <fiyps-refresh [visibility]="visibility"></fiyps-refresh>
+  <div *ngIf="isLoaded" class="pdfControlsContainer">
+    <tooltip-content #goTo [animation]="true">
+      <small>Go to</small>
+    </tooltip-content> 
+    <span class="form-control pdfPagination"><input [tooltip]="goTo"  [(ngModel)]="pdfPage" type="number" [max]="totalPages" [min]="min" class="form-control pdfPageNumber" value="{{ pdfPage }}" /> / <span class="totalPages">{{ totalPages }}</span></span>
+    <div class="btn-container">
+      <tooltip-content #close [animation]="true">
+        <small>Close</small>
+      </tooltip-content> 
+      <button class="btn btn-primary animated fadeInRight _delay2ms pdfCloseBtn" *ngIf="!deliverableTypeId" [tooltip]="close" (click)="_close()"><img src="/assets/img/icons/ic_clear_black_24dp/web/ic_clear_black_24dp_1x.png" class="img-fluid"></button>      
+      <tooltip-content #prev [animation]="true">
+        <small>Previous</small>
+      </tooltip-content>       
+      <button class="btn btn-primary animated fadeInRight _delay3ms pdfPrevBtn" [tooltip]="prev" [disabled]="pdfPage === 1" (click)="_prevPage()">
+        <img src="/assets/img/icons/ic_remove_white_24dp/web/ic_remove_white_24dp_1x.png" class="img-fluid">
+      </button>
+      <tooltip-content #next [animation]="true">
+        <small>Next</small>
+      </tooltip-content>       
+      <button class="btn btn-primary animated fadeInRight _delay4ms pdfNextBtn" [tooltip]="next" [disabled]="pdfPage === totalPages" (click)="_nextPage()">
+        <img src="/assets/img/icons/ic_add_white_24dp/web/ic_add_white_24dp_1x.png" class="img-fluid">
+      </button>
+    </div>
+  </div>
+  <div class="pdfViewerContainer _widget-scrollbar {{ fullscreen }} ">
+    <pdf-viewer [src]="url" 
+        [page]="pdfPage"
+        [render-text]="true"
+        [show-all]="false"
+        [original-size]="originalSize"
+        [autoresize]="autoResize"
+        style="display: block;margin-left:auto;margin-right:auto;max-width: 80%"
+        (on-progress)="_handleOnProgress($event)"
+        (page-rendered)="_handlePageRendered($event)"
+        (after-load-complete)="_handleLoadComplete($event)"
+    ></pdf-viewer>
+  </div>
+
+</div>

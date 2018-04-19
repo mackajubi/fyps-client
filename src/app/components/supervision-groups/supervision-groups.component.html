@@ -1,0 +1,17 @@
+<ng2-popup class="animated fadeInDown _delay4ms" #popup></ng2-popup> 
+<div class="_nameSearch">
+  <tooltip-content #searchField [animation]="true" placement="bottom">
+    <small>search</small>
+  </tooltip-content>                
+  <input [tooltip]="searchField" class="form-control" type="text" placeholder="Search" [(ngModel)]="search" aria-controls="DataTables_Table_0" aria-label="Search">
+</div>
+<table *ngIf="total" class="table table-striped">
+  <tbody>
+    <tr *ngFor="let group of groups | filter:search ; let i = index;" class="animated fadeInUp _delay{{ i + 1 }}ms">               
+      <td class="groupname _{{ i }}"  (click)="_reviewGroup(i,group.groupname)">{{ group.groupname }}</td>
+    </tr>
+  </tbody>
+</table>
+<div *ngIf="!total" class="groupnames-defaults-container">
+  <img src="./assets/img/defaults/search.jpg" />
+</div>

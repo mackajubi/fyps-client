@@ -23,6 +23,12 @@
     padding: 0px;
     margin-left: 40px;
 }
+.group-members-heading-container > .header{
+    text-align: center;
+    padding-top: 8px;
+    line-height: 14px;
+    font-weight: 800;
+}
 /* Media Queries */
 @media only screen and (max-width: 480px){
     .group-members-th,

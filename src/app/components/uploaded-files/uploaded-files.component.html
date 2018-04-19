@@ -1,4 +1,5 @@
-<div class="uploads-wrapper" *ngIf="userType == 'student' || userType == 'supervisor'">
+<ng2-popup class="animated fadeInDown _delay4ms" #popup></ng2-popup> 
+<div class="uploads-wrapper" *ngIf="userType == '1' || userType == '2'" [ngClass]="{'extra-left-margin': userType == 1, 'extra-left-margin-all-pages': userType == '1' || userType == '2' || userType == '3' }">
     <div class="uploads-header" (click)="_slideToggle('upload-wrapper','uploads-header-icon','upload-info')">
       <div class="uploads-header-icon">
         <i class="fas fa-caret-down icon"></i>
@@ -6,43 +7,65 @@
       <div class="uploads-header-title">
         <h4>Uploads</h4>
       </div>
-      <div class="upload-info pull-right">
-        max file size of <span>2MB</span>
+      <div class="upload-info pull-right" *ngIf="userType == '1'">
+        max file size of <span>3 MB</span>
       </div>
     </div>
     <div class="upload-wrapper">
       <div class="uploads-table">
-        <div class="col-sm-10 _scrollbar">
+        <div class="col-sm-10 _scrollbar"  [ngClass]="{'fullWidth':userType == 2}">
           <fiyps-refresh [visibility]="visibility"></fiyps-refresh>
-          <table class="table table-striped">
+          <tooltip-content #fileRead>
+            <span>open this file</span>
+          </tooltip-content>           
+          <tooltip-content #fileDelete>
+            <span>delete the file</span>
+          </tooltip-content>           
+          <table *ngIf="fileFound" class="table table-striped">
             <thead>
               <tr>
                 <th>#</th>
                 <th>File</th>
                 <th>Date modified</th>
                 <th>size</th>
-                <th>Remove</th>
+                <th *ngIf="userType == '1'" class="remove-btn-td">Remove</th>
+                <th class="approved">Approved</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let file of files; let i = index;" class="animated fadeInDown _delay{{ i + 3 }}ms">
-                <td> {{ i + 1 }}</td>
-                <td class="file-name" >{{ file.name }}</td>
-                <td>{{ file.dateModified }}</td>
-                <td>{{ file.size }}</td>
-                <td>
-                  <button class="btn btn-info mb-control remove-btn" data-box="#mb-confirm-delete" (click)="_removeFile(i)">
+              <tr *ngFor="let file of files; let i = index;" class="animated fadeInUp _delay{{ i + 1 }}ms">
+                <td class="other-tables"> {{ i + 1 }}</td>               
+                <td class="file-name" (click)="_readFile(file.id,file.studentGroupId,file.name)" [tooltip]="fileRead" >{{ file.name }}</td>
+                <td class="other-tables">{{ file.uploadDate }}</td>
+                <td class="other-tables">{{ file.fileSize }}</td>
+                <td *ngIf="userType == '1'" [tooltip]="fileDelete" class="remove-btn-td">
+                  <button class="btn btn-info mb-control remove-btn" data-box="#mb-confirm-delete" (click)="_removeFile(file.id)">
                     <i class="fas fa-times"></i>
                   </button>
+                </td>
+                <td class="other-tables"> 
+                  <button *ngIf="file.approvalFlag == 'true' " class="btn btn-primary ready-for-submission-btn">
+                    <div *ngIf="userType =='1' && file.submitted =='false'" [ngClass]="{'submit-file-overlay':userType == '1'}" (click)="_submitForGrading(file.name,file.id,file.approvalFlag)"></div>
+                      <span *ngIf="file.submitted =='false' else elseBlock">Ready for submission </span>
+                      <ng-template #elseBlock>
+                        <span>Has been submitted for grading </span>
+                      </ng-template> 
+                  </button>    
                 </td>
               </tr>
             </tbody>
           </table>
+          <div *ngIf="!fileFound" class="col-xs-12 defaults-container animated fadeIn _delay4ms ">
+            <img src="./assets/img/defaults/noResults.png" class="img-fluid" />
+          </div>
         </div>
-        <div class="col-sm-2">
+        <div class="col-sm-2" *ngIf="userType == '1'">
           <div class="drop-zone-wrapper _scrollbar" >
             <i class="fas fa-cloud-upload-alt"></i>
-            <dropzone [config]="config" (error)="onUploadError($event)" (success)="onUploadSuccess($event)"></dropzone>   
+            <dropzone 
+              [config]="config" 
+              (error)="onUploadError($event)" 
+              (success)="onUploadSuccess($event)"></dropzone>   
           </div>
         </div>
         <!-- MESSAGE BOX-->
