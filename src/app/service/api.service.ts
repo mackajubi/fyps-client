@@ -9,7 +9,8 @@ import 'rxjs/add/observable/from';
 
 @Injectable()
 export class ApiService {
-  private apiUrl: string = "http://localhost:91";
+  //private apiUrl: string = "http://localhost:91";
+  private apiUrl: string = "http://fyps.pythonanywhere.com";
 
   private ep_login: string = '/login';
   private ep_resetPassword: string = '/resetPassword';
