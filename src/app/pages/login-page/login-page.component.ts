@@ -35,11 +35,11 @@ export class LoginPageComponent implements OnInit {
     });
     
     this.loginForm = new FormGroup({
-      username: new FormControl("",Validators.compose([
+      username: new FormControl("a.mwotil",Validators.compose([
         Validators.required,
         Validators.minLength(2),
       ])),
-      password: new FormControl("",Validators.compose([
+      password: new FormControl("mwotil",Validators.compose([
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(22)

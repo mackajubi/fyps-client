@@ -57,3 +57,7 @@ h4{
 .black{
     background-color: #212329;
 }
+.yellow > h4,
+.yellow > div{
+    color: black;
+}

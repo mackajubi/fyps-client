@@ -43,3 +43,6 @@ Development notes:
 
 
 m.nsabagwa@cis.mak.ac.ug
+
+Fyps$fyps
+db pwd: fypstoor
